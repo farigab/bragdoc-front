@@ -10,10 +10,10 @@ export class GithubImportService {
   private readonly http = inject(HttpClient);
   private readonly apiUrl = `${environment.apiUrl}/github`;
 
-  getUsername(token?: string): Observable<{ username: string; message: string }> {
+  getUsername(token?: string): Observable<{ username: string; message?: string; avatar_url?: string }> {
     let params = new HttpParams();
     if (token) params = params.set('token', token);
-    return this.http.get<{ username: string; message: string }>(`${this.apiUrl}/username`, { params });
+    return this.http.get<{ username: string; message?: string; avatar_url?: string }>(`${this.apiUrl}/username`, { params });
   }
 
   importPullRequests(repository: string, token?: string): Observable<any> {

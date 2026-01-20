@@ -16,7 +16,6 @@ export const appConfig: ApplicationConfig = {
       routes,
       withComponentInputBinding(),
       withViewTransitions(),
-      withHashLocation()
     ),
 
     provideHttpClient(withInterceptorsFromDi()),

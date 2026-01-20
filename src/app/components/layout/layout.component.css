@@ -149,6 +149,77 @@
   display: none;
 }
 
+/* User area (avatar + name + logout) */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.user-area {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.user-profile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 8px;
+  border-radius: 10px;
+  transition: background var(--transition-fast);
+}
+
+.user-profile:hover {
+  background: rgba(0, 0, 0, 0.02);
+}
+
+.user-avatar .avatar-image,
+.sidebar-avatar-image {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.user-info {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--spacing-sm, 8px);
+  min-width: 0;
+}
+
+.user-info img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.user-details {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs, 4px);
+}
+
+.logout-btn {
+  align-self: flex-start;
+  font-size: 0.875rem;
+  padding: var(--spacing-xs, 4px) var(--spacing-sm, 8px);
+  border-radius: var(--radius-sm, 8px);
+  color: var(--apple-red, #ff3b30);
+  transition: all var(--transition-fast, 150ms);
+}
+
+.logout-btn:hover {
+  background: rgba(255, 59, 48, 0.08);
+}
+
 /* Mobile Sidebar */
 .sidebar-header {
   display: flex;
@@ -333,6 +404,10 @@
 
   .main-content {
     padding: var(--spacing-lg, 24px) var(--spacing-md, 16px);
+  }
+
+  .user-name {
+    display: none;
   }
 
   .footer-content {

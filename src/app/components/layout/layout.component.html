@@ -1,12 +1,15 @@
 <div class="layout-container">
-  <!-- Apple-style Header -->
+
+  <!-- Header -->
   <header class="apple-header">
     <div class="header-content">
+
       <div class="logo-section">
         <i class="pi pi-trophy logo-icon"></i>
         <span class="logo-text">BragDoc</span>
       </div>
 
+      <!-- Desktop nav -->
       <nav class="desktop-nav">
         @for (item of menuItems; track item.label) {
         @if (item.routerLink) {
@@ -21,6 +24,7 @@
             <span>{{ item.label }}</span>
             <i class="pi pi-chevron-down"></i>
           </button>
+
           <div class="dropdown-content">
             @for (subItem of item.items; track subItem.label) {
             <a [routerLink]="subItem.routerLink" routerLinkActive="active" class="dropdown-item" pRipple>
@@ -34,25 +38,54 @@
         }
       </nav>
 
-      <button class="mobile-menu-btn" (click)="toggleSidebar()" pButton icon="pi pi-bars" [text]="true">
-      </button>
+      <!-- Actions -->
+      <div class="header-actions">
+        @if (user(); as u) {
+        <div class="user-info">
+          <img [src]="u.avatar" [alt]="u.name">
+          <div class="user-details">
+            <button (click)="logout()" class="logout-btn" pButton label="Sair" icon="pi pi-sign-out" [text]="true"
+              [size]="'small'">
+            </button>
+          </div>
+        </div>
+        } @else {
+        <p-button label="Login" icon="pi pi-github" (onClick)="login()"></p-button>
+        }
+      </div>
+
+      <!-- Mobile button -->
+      <button class="mobile-menu-btn" pButton icon="pi pi-bars" [text]="true" (click)="toggleSidebar()"></button>
+
     </div>
   </header>
 
-  <!-- Mobile Sidebar -->
-  <p-sidebar [(visible)]="sidebarVisible" [position]="'right'" [showCloseIcon]="true" [style]="{ width: '280px' }">
+  <!-- Mobile sidebar -->
+  <p-sidebar [(visible)]="sidebarVisible" position="right" [showCloseIcon]="true" [style]="{ width: '280px' }">
+
     <ng-template pTemplate="header">
       <div class="sidebar-header">
         <i class="pi pi-trophy"></i>
         <span>BragDoc</span>
       </div>
+
+      @if (user(); as u) {
+      <div class="sidebar-user">
+        <p-avatar [image]="u.avatar" [label]="u.name.charAt(0).toUpperCase()" shape="circle"
+          styleClass="sidebar-avatar-image">
+        </p-avatar>
+        <div class="sidebar-user-info">
+          <div class="sidebar-username">{{ u.name }}</div>
+        </div>
+      </div>
+      }
     </ng-template>
 
     <nav class="mobile-nav">
       @for (item of menuItems; track item.label) {
       @if (item.routerLink) {
-      <a [routerLink]="item.routerLink" routerLinkActive="active" class="mobile-nav-item" (click)="toggleSidebar()"
-        pRipple>
+      <a [routerLink]="item.routerLink" routerLinkActive="active" class="mobile-nav-item" pRipple
+        (click)="toggleSidebar()">
         <i [class]="item.icon"></i>
         <span>{{ item.label }}</span>
       </a>
@@ -62,9 +95,10 @@
           <i [class]="item.icon"></i>
           <span>{{ item.label }}</span>
         </div>
+
         @for (subItem of item.items; track subItem.label) {
-        <a [routerLink]="subItem.routerLink" routerLinkActive="active" class="mobile-nav-subitem"
-          (click)="toggleSidebar()" pRipple>
+        <a [routerLink]="subItem.routerLink" routerLinkActive="active" class="mobile-nav-subitem" pRipple
+          (click)="toggleSidebar()">
           <i [class]="subItem.icon"></i>
           <span>{{ subItem.label }}</span>
         </a>
@@ -73,31 +107,39 @@
       }
       }
     </nav>
+
   </p-sidebar>
 
-  <!-- Main Content -->
+  <!-- Main -->
   <main class="main-content">
     <router-outlet></router-outlet>
   </main>
 
-  <!-- Apple-style Footer -->
+  <!-- Footer -->
   <footer class="apple-footer">
     <div class="footer-content">
+
       <div class="footer-brand">
         <i class="pi pi-trophy"></i>
         <span>BragDoc</span>
         <p class="footer-tagline">Track Your Professional Achievements</p>
       </div>
+
       <div class="footer-links">
         @for (item of menuItems; track item.label) {
         @if (item.routerLink) {
-        <a [routerLink]="item.routerLink" class="footer-link">{{ item.label }}</a>
+        <a [routerLink]="item.routerLink" class="footer-link">
+          {{ item.label }}
+        </a>
         }
         }
       </div>
+
     </div>
+
     <div class="footer-bottom">
       <p>© 2026 BragDoc. All rights reserved.</p>
     </div>
   </footer>
+
 </div>

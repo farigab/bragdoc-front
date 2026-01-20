@@ -35,6 +35,14 @@ export const routes: Routes = [
     loadComponent: () => import('./components/github-import/github-import.component').then(m => m.GithubImportComponent)
   },
   {
+    path: 'login',
+    loadComponent: () => import('./components/login/login.component').then(m => m.LoginComponent)
+  },
+  {
+    path: 'auth-callback',
+    loadComponent: () => import('./components/login/auth-callback.component').then(m => m.AuthCallbackComponent)
+  },
+  {
     path: '**',
     redirectTo: '/dashboard'
   }
