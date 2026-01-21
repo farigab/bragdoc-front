@@ -4,7 +4,7 @@
       <h1 class="page-title">Dashboard</h1>
       <p class="page-subtitle">Visualize seus achievements e progresso</p>
     </div>
-    <a routerLink="/achievements/new" pButton label="Novo Achievement" icon="pi pi-plus" class="btn-primary"></a>
+    <button pButton (click)="openCreateModal()" label="Novo Achievement" icon="pi pi-plus" class="btn-primary"></button>
   </div>
 
   @if (loading()) {
@@ -131,3 +131,7 @@
   </div>
   }
 </div>
+
+<app-create-achievement-modal [isOpen]="showCreateModal()" (onClose)="closeCreateModal()"
+  (onSave)="onAchievementCreated()">
+</app-create-achievement-modal>

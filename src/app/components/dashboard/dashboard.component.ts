@@ -8,11 +8,12 @@ import { SkeletonModule } from 'primeng/skeleton';
 import { TagModule } from 'primeng/tag';
 import { SummaryReport } from '../../models/report.model';
 import { ReportService } from '../../services/report.service';
+import { CreateAchievementModalComponent } from '../create-achievement-modal/create-achievement-modal.component';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [DatePipe, RouterLink, CardModule, ButtonModule, ChartModule, SkeletonModule, TagModule],
+  imports: [DatePipe, RouterLink, CardModule, ButtonModule, ChartModule, SkeletonModule, TagModule, CreateAchievementModalComponent],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -27,6 +28,7 @@ export class DashboardComponent implements OnInit {
   protected readonly categoryChartData = signal<any>(null);
   protected readonly categoryChartOptions = signal<any>(null);
   protected readonly loading = signal(true);
+  protected readonly showCreateModal = signal(false);
 
   protected readonly categoryEntries = computed(() => {
     const summaryValue = this.summary();
@@ -118,5 +120,18 @@ export class DashboardComponent implements OnInit {
       other: 'pi-star'
     };
     return icons[category.toLowerCase()] || 'pi-star';
+  }
+
+  protected openCreateModal(): void {
+    this.showCreateModal.set(true);
+  }
+
+  protected closeCreateModal(): void {
+    this.showCreateModal.set(false);
+  }
+
+  protected onAchievementCreated(): void {
+    this.closeCreateModal();
+    this.loadSummary(); // Recarregar o summary após criar
   }
 }
