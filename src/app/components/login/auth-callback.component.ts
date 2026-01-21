@@ -1,5 +1,6 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, effect } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   standalone: true,
@@ -8,8 +9,18 @@ import { Router } from '@angular/router';
 export class AuthCallbackComponent implements OnInit {
 
   private router = inject(Router);
+  private auth = inject(AuthService);
+
+  constructor() {
+    effect(() => {
+      const user = this.auth.user();
+      if (user) {
+        this.router.navigate(['/dashboard'], { replaceUrl: true });
+      }
+    });
+  }
 
   ngOnInit(): void {
-    this.router.navigate(['/dashboard'], { replaceUrl: true });
+    this.auth.loadUser();
   }
 }

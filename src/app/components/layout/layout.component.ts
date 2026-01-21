@@ -1,12 +1,12 @@
+import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { CommonModule } from '@angular/common';
 
 import { MenuItem } from 'primeng/api';
 import { AvatarModule } from 'primeng/avatar';
 import { ButtonModule } from 'primeng/button';
-import { RippleModule } from 'primeng/ripple';
 import { DrawerModule } from 'primeng/drawer';
+import { RippleModule } from 'primeng/ripple';
 
 import { AuthService } from '../../services/auth.service';
 
@@ -41,18 +41,18 @@ export class LayoutComponent {
   ];
 
   constructor() {
-    this.auth.loadUser();
+    // loadUser moved to app.component.ts
   }
 
   protected toggleSidebar(): void {
     this.sidebarVisible.update(v => !v);
   }
 
-  protected login(): void {
-    this.auth.loginWithGithub();
-  }
-
   protected logout(): void {
     this.auth.logout();
+  }
+
+  protected login(): void {
+    this.auth.loginWithGithub();
   }
 }
