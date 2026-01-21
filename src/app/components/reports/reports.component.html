@@ -167,7 +167,7 @@
     </ng-template>
     <div class="modal-ai-content">
       @if (aiSummary()) {
-      <p class="ai-text">{{ aiSummary()!.ai_generated_report }}</p>
+      <div class="ai-text" [innerHTML]="aiSummary()!.ai_generated_report | markdown"></div>
       }
     </div>
   </p-dialog>

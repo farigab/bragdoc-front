@@ -9,10 +9,11 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { AIGitHubAnalysis, AISummaryReport, GitHubStats, PeriodReport } from '../../models/report.model';
 import { ReportService } from '../../services/report.service';
 import { DatePickerModule } from 'primeng/datepicker';
+import { MarkdownPipe } from '../../pipes/markdown.pipe';
 
 @Component({
     selector: 'app-reports',
-    imports: [DatePipe, FormsModule, CardModule, ButtonModule, DatePickerModule, ChartModule, DialogModule, ProgressSpinnerModule],
+  imports: [DatePipe, FormsModule, CardModule, ButtonModule, DatePickerModule, ChartModule, DialogModule, ProgressSpinnerModule, MarkdownPipe],
     templateUrl: './reports.component.html',
     styleUrls: ['./reports.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush
