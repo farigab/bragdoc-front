@@ -9,21 +9,20 @@ import { ToastModule } from 'primeng/toast';
 import { GithubImportService } from '../../services/github-import.service';
 
 @Component({
-  selector: 'app-github-import',
-  standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule,
-    ButtonModule,
-    CardModule,
-    InputTextModule,
-    InputNumberModule,
-    ToastModule
-  ],
-  templateUrl: './github-import.component.html',
-  styleUrls: ['./github-import.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { 'class': 'github-import-page' }
+    selector: 'app-github-import',
+    imports: [
+        CommonModule,
+        FormsModule,
+        ButtonModule,
+        CardModule,
+        InputTextModule,
+        InputNumberModule,
+        ToastModule
+    ],
+    templateUrl: './github-import.component.html',
+    styleUrls: ['./github-import.component.css'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    host: { 'class': 'github-import-page' }
 })
 export class GithubImportComponent {
   private readonly service = inject(GithubImportService);

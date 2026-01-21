@@ -7,12 +7,11 @@ import { TimelineReport } from '../../models/report.model';
 import { ReportService } from '../../services/report.service';
 
 @Component({
-  selector: 'app-timeline',
-  standalone: true,
-  imports: [DatePipe, CardModule, TimelineModule, TagModule],
-  templateUrl: './timeline.component.html',
-  styleUrls: ['./timeline.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-timeline',
+    imports: [DatePipe, CardModule, TimelineModule, TagModule],
+    templateUrl: './timeline.component.html',
+    styleUrls: ['./timeline.component.css'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TimelineComponent implements OnInit {
   private reportService = inject(ReportService);

@@ -3,35 +3,34 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
-import { CalendarModule } from 'primeng/calendar';
 import { CardModule } from 'primeng/card';
-import { DropdownModule } from 'primeng/dropdown';
 import { InputTextModule } from 'primeng/inputtext';
-import { InputTextarea } from 'primeng/inputtextarea';
+import { TextareaModule } from 'primeng/textarea';
 import { ToastModule } from 'primeng/toast';
 import { ACHIEVEMENT_CATEGORIES, Achievement } from '../../models/achievement.model';
 import { AchievementService } from '../../services/achievement.service';
+import { DatePickerModule } from 'primeng/datepicker';
+import { SelectModule } from 'primeng/select';
 
 @Component({
-  selector: 'app-achievement-form',
-  standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    CardModule,
-    ButtonModule,
-    InputTextModule,
-    InputTextarea,
-    CalendarModule,
-    DropdownModule,
-    ToastModule
-  ],
-  providers: [MessageService],
-  templateUrl: './achievement-form.component.html',
-  styleUrls: ['./achievement-form.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  host: {
-    'class': 'achievement-form-page'
-  }
+    selector: 'app-achievement-form',
+    imports: [
+        ReactiveFormsModule,
+        CardModule,
+        ButtonModule,
+        InputTextModule,
+        TextareaModule,
+        DatePickerModule,
+        SelectModule,
+        ToastModule
+    ],
+    providers: [MessageService],
+    templateUrl: './achievement-form.component.html',
+    styleUrls: ['./achievement-form.component.css'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    host: {
+        'class': 'achievement-form-page'
+    }
 })
 export class AchievementFormComponent implements OnInit {
   private readonly fb = inject(FormBuilder);

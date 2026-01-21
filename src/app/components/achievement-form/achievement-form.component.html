@@ -46,9 +46,9 @@
           <label for="date" class="form-label">
             Data <span class="required">*</span>
           </label>
-          <p-calendar id="date" formControlName="date" dateFormat="dd/mm/yy" [showIcon]="true"
+          <p-datepicker id="date" formControlName="date" dateFormat="dd/mm/yy" [showIcon]="true"
             placeholder="Selecione a data" styleClass="form-calendar"
-            [class.input-error]="isFieldInvalid('date')"></p-calendar>
+            [class.input-error]="isFieldInvalid('date')"></p-datepicker>
           @if (isFieldInvalid('date')) {
           <small class="field-error">
             <i class="pi pi-exclamation-circle"></i>
@@ -62,9 +62,9 @@
           <label for="category" class="form-label">
             Categoria <span class="required">*</span>
           </label>
-          <p-dropdown id="category" formControlName="category" [options]="categoriesArray" optionLabel="label"
+          <p-select id="category" formControlName="category" [options]="categoriesArray" optionLabel="label"
             optionValue="value" placeholder="Selecione a categoria" styleClass="form-dropdown"
-            [class.input-error]="isFieldInvalid('category')"></p-dropdown>
+            [class.input-error]="isFieldInvalid('category')"></p-select>
           @if (isFieldInvalid('category')) {
           <small class="field-error">
             <i class="pi pi-exclamation-circle"></i>
@@ -78,9 +78,9 @@
           <label for="impact" class="form-label">
             Impacto <span class="required">*</span>
           </label>
-          <p-dropdown id="impact" formControlName="impact" [options]="impactLevels" optionLabel="label"
+          <p-select id="impact" formControlName="impact" [options]="impactLevels" optionLabel="label"
             optionValue="value" placeholder="Selecione o impacto" styleClass="form-dropdown"
-            [class.input-error]="isFieldInvalid('impact')"></p-dropdown>
+            [class.input-error]="isFieldInvalid('impact')"></p-select>
           @if (isFieldInvalid('impact')) {
           <small class="field-error">
             <i class="pi pi-exclamation-circle"></i>

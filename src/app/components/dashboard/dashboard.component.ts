@@ -11,15 +11,14 @@ import { ReportService } from '../../services/report.service';
 import { CreateAchievementModalComponent } from '../create-achievement-modal/create-achievement-modal.component';
 
 @Component({
-  selector: 'app-dashboard',
-  standalone: true,
-  imports: [DatePipe, RouterLink, CardModule, ButtonModule, ChartModule, SkeletonModule, TagModule, CreateAchievementModalComponent],
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  host: {
-    'class': 'dashboard-page'
-  }
+    selector: 'app-dashboard',
+    imports: [DatePipe, RouterLink, CardModule, ButtonModule, ChartModule, SkeletonModule, TagModule, CreateAchievementModalComponent],
+    templateUrl: './dashboard.component.html',
+    styleUrls: ['./dashboard.component.css'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    host: {
+        'class': 'dashboard-page'
+    }
 })
 export class DashboardComponent implements OnInit {
   private readonly reportService = inject(ReportService);

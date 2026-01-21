@@ -63,7 +63,7 @@
   </header>
 
   <!-- Mobile sidebar -->
-  <p-sidebar [(visible)]="sidebarVisible" position="right" [showCloseIcon]="true" [style]="{ width: '280px' }">
+  <p-drawer [(visible)]="sidebarVisible" position="right" [showCloseIcon]="true" [style]="{ width: '280px' }">
 
     <ng-template pTemplate="header">
       <div class="sidebar-header">
@@ -110,7 +110,7 @@
       }
     </nav>
 
-  </p-sidebar>
+  </p-drawer>
 
   <!-- Main -->
   <main class="main-content">

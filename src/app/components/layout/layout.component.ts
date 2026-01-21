@@ -6,25 +6,24 @@ import { MenuItem } from 'primeng/api';
 import { AvatarModule } from 'primeng/avatar';
 import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
-import { SidebarModule } from 'primeng/sidebar';
+import { DrawerModule } from 'primeng/drawer';
 
 import { AuthService } from '../../services/auth.service';
 
 @Component({
-  selector: 'app-layout',
-  standalone: true,
-  imports: [
-    CommonModule,
-    RouterModule,
-    ButtonModule,
-    AvatarModule,
-    SidebarModule,
-    RippleModule
-  ],
-  templateUrl: './layout.component.html',
-  styleUrls: ['./layout.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { class: 'layout-wrapper' }
+    selector: 'app-layout',
+    imports: [
+        CommonModule,
+        RouterModule,
+        ButtonModule,
+        AvatarModule,
+        DrawerModule,
+        RippleModule
+    ],
+    templateUrl: './layout.component.html',
+    styleUrls: ['./layout.component.css'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    host: { class: 'layout-wrapper' }
 })
 export class LayoutComponent {
 

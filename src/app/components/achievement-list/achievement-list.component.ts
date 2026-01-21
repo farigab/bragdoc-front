@@ -6,7 +6,7 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { DropdownModule } from 'primeng/dropdown';
+import { SelectModule } from 'primeng/select';
 import { InputTextModule } from 'primeng/inputtext';
 import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
@@ -15,28 +15,27 @@ import { ACHIEVEMENT_CATEGORIES, Achievement } from '../../models/achievement.mo
 import { AchievementService } from '../../services/achievement.service';
 
 @Component({
-  selector: 'app-achievement-list',
-  standalone: true,
-  imports: [
-    DatePipe,
-    RouterLink,
-    FormsModule,
-    TableModule,
-    ButtonModule,
-    CardModule,
-    InputTextModule,
-    DropdownModule,
-    TagModule,
-    ConfirmDialogModule,
-    ToastModule
-  ],
-  providers: [ConfirmationService, MessageService],
-  templateUrl: './achievement-list.component.html',
-  styleUrls: ['./achievement-list.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  host: {
-    'class': 'achievement-list-page'
-  }
+    selector: 'app-achievement-list',
+    imports: [
+        DatePipe,
+        RouterLink,
+        FormsModule,
+        TableModule,
+        ButtonModule,
+        CardModule,
+        InputTextModule,
+        SelectModule,
+        TagModule,
+        ConfirmDialogModule,
+        ToastModule
+    ],
+    providers: [ConfirmationService, MessageService],
+    templateUrl: './achievement-list.component.html',
+    styleUrls: ['./achievement-list.component.css'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    host: {
+        'class': 'achievement-list-page'
+    }
 })
 export class AchievementListComponent implements OnInit {
   private readonly achievementService = inject(AchievementService);

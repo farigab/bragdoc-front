@@ -2,21 +2,20 @@ import { DatePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
-import { CalendarModule } from 'primeng/calendar';
 import { CardModule } from 'primeng/card';
 import { ChartModule } from 'primeng/chart';
 import { DialogModule } from 'primeng/dialog';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { AIGitHubAnalysis, AISummaryReport, GitHubStats, PeriodReport } from '../../models/report.model';
 import { ReportService } from '../../services/report.service';
+import { DatePickerModule } from 'primeng/datepicker';
 
 @Component({
-  selector: 'app-reports',
-  standalone: true,
-  imports: [DatePipe, FormsModule, CardModule, ButtonModule, CalendarModule, ChartModule, DialogModule, ProgressSpinnerModule],
-  templateUrl: './reports.component.html',
-  styleUrls: ['./reports.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-reports',
+    imports: [DatePipe, FormsModule, CardModule, ButtonModule, DatePickerModule, ChartModule, DialogModule, ProgressSpinnerModule],
+    templateUrl: './reports.component.html',
+    styleUrls: ['./reports.component.css'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ReportsComponent implements OnInit {
   private reportService = inject(ReportService);

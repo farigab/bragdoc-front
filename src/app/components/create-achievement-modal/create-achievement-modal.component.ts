@@ -2,33 +2,32 @@ import { ChangeDetectionStrategy, Component, effect, inject, input, output, sign
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
-import { CalendarModule } from 'primeng/calendar';
-import { DropdownModule } from 'primeng/dropdown';
+import { DatePickerModule } from 'primeng/datepicker';
+import { SelectModule } from 'primeng/select';
 import { InputTextModule } from 'primeng/inputtext';
-import { InputTextarea } from 'primeng/inputtextarea';
+import { TextareaModule } from 'primeng/textarea';
 import { ToastModule } from 'primeng/toast';
 import { ACHIEVEMENT_CATEGORIES, Achievement } from '../../models/achievement.model';
 import { AchievementService } from '../../services/achievement.service';
 
 @Component({
-  selector: 'app-create-achievement-modal',
-  standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    ButtonModule,
-    InputTextModule,
-    InputTextarea,
-    CalendarModule,
-    DropdownModule,
-    ToastModule
-  ],
-  providers: [MessageService],
-  templateUrl: './create-achievement-modal.component.html',
-  styleUrls: ['./create-achievement-modal.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  host: {
-    'class': 'create-achievement-modal'
-  }
+    selector: 'app-create-achievement-modal',
+    imports: [
+        ReactiveFormsModule,
+        ButtonModule,
+        InputTextModule,
+        TextareaModule,
+        DatePickerModule,
+        SelectModule,
+        ToastModule
+    ],
+    providers: [MessageService],
+    templateUrl: './create-achievement-modal.component.html',
+    styleUrls: ['./create-achievement-modal.component.css'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    host: {
+        'class': 'create-achievement-modal'
+    }
 })
 export class CreateAchievementModalComponent {
   private readonly fb = inject(FormBuilder);
