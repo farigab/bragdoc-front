@@ -29,8 +29,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 5rem;
-  height: 5rem;
+  width: 4rem; /* Reduced from 5rem */
+  height: 4rem; /* Reduced from 5rem */
   background: linear-gradient(to bottom right, #3b82f6, #8b5cf6);
   border-radius: 1rem;
   margin-bottom: 1rem;
@@ -121,6 +121,11 @@
 .login-button:hover {
   box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
   transform: translateY(-1px);
+}
+
+.button-wrapper {
+  display: flex;
+  justify-content: center;
 }
 
 .footer-text {
