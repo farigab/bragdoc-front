@@ -2,7 +2,7 @@
 <div class="modal-overlay" (click)="close()">
   <div class="modal-content" #modalContent (click)="$event.stopPropagation()">
     <div class="modal-header">
-      <h2 class="modal-title">Novo Achievement</h2>
+      <h2 class="modal-title">{{ achievementToEdit() ? 'Editar Achievement' : 'Novo Achievement' }}</h2>
       <button type="button" class="close-button" (click)="close()" aria-label="Fechar">
         <i class="pi pi-times"></i>
       </button>
@@ -93,8 +93,9 @@
 
         <!-- Form Actions -->
         <div class="form-actions">
-          <button pButton type="submit" label="Criar Achievement" icon="pi pi-check" [loading]="loading()"
-            [disabled]="loading() || form.invalid" class="btn-primary"></button>
+          <button pButton type="submit" [label]="achievementToEdit() ? 'Atualizar Achievement' : 'Criar Achievement'"
+            icon="pi pi-check" [loading]="loading()" [disabled]="loading() || form.invalid"
+            class="btn-primary"></button>
           <button pButton type="button" label="Cancelar" icon="pi pi-times" class="p-button-outlined p-button-secondary"
             (click)="close()" [disabled]="loading()"></button>
         </div>

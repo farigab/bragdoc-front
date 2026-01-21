@@ -3,31 +3,31 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { DatePickerModule } from 'primeng/datepicker';
-import { SelectModule } from 'primeng/select';
 import { InputTextModule } from 'primeng/inputtext';
+import { SelectModule } from 'primeng/select';
 import { TextareaModule } from 'primeng/textarea';
 import { ToastModule } from 'primeng/toast';
 import { ACHIEVEMENT_CATEGORIES, Achievement } from '../../models/achievement.model';
 import { AchievementService } from '../../services/achievement.service';
 
 @Component({
-    selector: 'app-create-achievement-modal',
-    imports: [
-        ReactiveFormsModule,
-        ButtonModule,
-        InputTextModule,
-        TextareaModule,
-        DatePickerModule,
-        SelectModule,
-        ToastModule
-    ],
-    providers: [MessageService],
-    templateUrl: './create-achievement-modal.component.html',
-    styleUrls: ['./create-achievement-modal.component.css'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    host: {
-        'class': 'create-achievement-modal'
-    }
+  selector: 'app-create-achievement-modal',
+  imports: [
+    ReactiveFormsModule,
+    ButtonModule,
+    InputTextModule,
+    TextareaModule,
+    DatePickerModule,
+    SelectModule,
+    ToastModule
+  ],
+  providers: [MessageService],
+  templateUrl: './create-achievement-modal.component.html',
+  styleUrls: ['./create-achievement-modal.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    'class': 'create-achievement-modal'
+  }
 })
 export class CreateAchievementModalComponent {
   private readonly fb = inject(FormBuilder);
@@ -39,6 +39,7 @@ export class CreateAchievementModalComponent {
 
   // Inputs
   isOpen = input<boolean>(false);
+  achievementToEdit = input<Achievement | null>(null);
 
   protected readonly categoriesArray = Array.from(ACHIEVEMENT_CATEGORIES);
 
@@ -64,15 +65,26 @@ export class CreateAchievementModalComponent {
 
     effect(() => {
       if (this.isOpen()) {
-        this.form.reset({
-          title: '',
-          description: '',
-          date: new Date(),
-          category: '',
-          impact: ''
-        });
+        const editAchievement = this.achievementToEdit();
+        if (editAchievement) {
+          this.form.patchValue({
+            title: editAchievement.title,
+            description: editAchievement.description,
+            date: new Date(editAchievement.date),
+            category: editAchievement.category,
+            impact: editAchievement.impact
+          });
+        } else {
+          this.form.reset({
+            title: '',
+            description: '',
+            date: new Date(),
+            category: '',
+            impact: ''
+          });
+        }
       }
-    }, { allowSignalWrites: true });
+    });
   }
 
   close() {
@@ -92,27 +104,52 @@ export class CreateAchievementModalComponent {
       date: this.formatDate(formValue.date)
     };
 
-    this.achievementService.create(achievement).subscribe({
-      next: (createdAchievement) => {
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Sucesso',
-          detail: 'Achievement criado com sucesso'
-        });
-        this.loading.set(false);
-        this.onSave.emit(createdAchievement);
-        this.close();
-      },
-      error: (error) => {
-        console.error('Error creating achievement:', error);
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Erro',
-          detail: 'Erro ao criar achievement'
-        });
-        this.loading.set(false);
-      }
-    });
+    const editAchievement = this.achievementToEdit();
+    if (editAchievement && editAchievement.id) {
+      this.achievementService.update(editAchievement.id, achievement).subscribe({
+        next: (updatedAchievement) => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Sucesso',
+            detail: 'Achievement atualizado com sucesso'
+          });
+          this.loading.set(false);
+          this.onSave.emit(updatedAchievement);
+          this.close();
+        },
+        error: (error) => {
+          console.error('Error updating achievement:', error);
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Erro',
+            detail: 'Erro ao atualizar achievement'
+          });
+          this.loading.set(false);
+        }
+      });
+    } else {
+      this.achievementService.create(achievement).subscribe({
+        next: (createdAchievement) => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Sucesso',
+            detail: 'Achievement criado com sucesso'
+          });
+          this.loading.set(false);
+          this.onSave.emit(createdAchievement);
+          this.close();
+        },
+        error: (error) => {
+          console.error('Error creating achievement:', error);
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Erro',
+            detail: 'Erro ao criar achievement'
+          });
+          this.loading.set(false);
+        }
+      });
+    }
   }
 
   formatDate(date: Date): string {

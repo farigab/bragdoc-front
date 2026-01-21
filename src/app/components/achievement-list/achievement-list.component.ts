@@ -1,7 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
@@ -19,8 +18,8 @@ import { CreateAchievementModalComponent } from '../create-achievement-modal/cre
   selector: 'app-achievement-list',
   imports: [
     DatePipe,
-    RouterLink,
     FormsModule,
+    ReactiveFormsModule,
     TableModule,
     ButtonModule,
     CardModule,
@@ -47,15 +46,16 @@ export class AchievementListComponent implements OnInit {
   protected readonly achievements = signal<Achievement[]>([]);
   protected readonly loading = signal(true);
   protected readonly searchText = signal('');
-  protected readonly selectedCategory = signal<string | null>(null);
+  protected readonly selectedCategory = new FormControl<string | null>(null);
   protected readonly showCreateModal = signal(false);
+  protected readonly editingAchievement = signal<Achievement | null>(null);
 
   protected readonly categoriesArray = Array.from(ACHIEVEMENT_CATEGORIES);
 
   protected readonly filteredAchievements = computed(() => {
     const achievementsList = this.achievements();
     const search = this.searchText().toLowerCase();
-    const category = this.selectedCategory();
+    const category = this.selectedCategory.value;
 
     return achievementsList.filter(achievement => {
       const matchesSearch = !search ||
@@ -91,12 +91,9 @@ export class AchievementListComponent implements OnInit {
     });
   }
 
-  protected onSearchChange(value: string): void {
-    this.searchText.set(value);
-  }
-
-  protected onCategoryChange(value: string | null): void {
-    this.selectedCategory.set(value);
+  protected onSearchChange(event: Event): void {
+    const target = event.target as HTMLInputElement;
+    this.searchText.set(target.value);
   }
 
   protected deleteAchievement(achievement: Achievement): void {
@@ -150,11 +147,18 @@ export class AchievementListComponent implements OnInit {
   }
 
   protected openCreateModal(): void {
+    this.editingAchievement.set(null);
+    this.showCreateModal.set(true);
+  }
+
+  protected openEditModal(achievement: Achievement): void {
+    this.editingAchievement.set(achievement);
     this.showCreateModal.set(true);
   }
 
   protected closeCreateModal(): void {
     this.showCreateModal.set(false);
+    this.editingAchievement.set(null);
   }
 
   protected onAchievementCreated(): void {

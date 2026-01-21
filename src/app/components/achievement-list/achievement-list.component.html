@@ -11,11 +11,11 @@
     <div class="filters-content">
       <div class="search-box">
         <i class="pi pi-search search-icon"></i>
-        <input pInputText type="text" [value]="searchText()" (input)="onSearchChange($any($event.target).value)"
+        <input pInputText type="text" [value]="searchText()" (input)="onSearchChange($event)"
           placeholder="Buscar achievements..." class="search-input" />
       </div>
 
-      <p-select [options]="categoriesArray" optionLabel="label" optionValue="value" [(ngModel)]="selectedCategory"
+      <p-select [options]="categoriesArray" optionLabel="label" optionValue="value" [formControl]="selectedCategory"
         placeholder="Todas as categorias" [showClear]="true" styleClass="category-dropdown"></p-select>
     </div>
   </div>
@@ -57,8 +57,8 @@
           </td>
           <td class="col-actions">
             <div class="action-buttons">
-              <a [routerLink]="['/achievements/edit', achievement.id]" pButton icon="pi pi-pencil"
-                class="p-button-rounded p-button-text action-btn-edit" pTooltip="Editar" tooltipPosition="top"></a>
+              <button pButton icon="pi pi-pencil" class="p-button-rounded p-button-text action-btn-edit"
+                (click)="openEditModal(achievement)" pTooltip="Editar" tooltipPosition="top"></button>
               <button pButton icon="pi pi-trash"
                 class="p-button-rounded p-button-text p-button-danger action-btn-delete"
                 (click)="deleteAchievement(achievement)" pTooltip="Excluir" tooltipPosition="top"></button>
@@ -81,8 +81,8 @@
   </div>
 </div>
 
-<app-create-achievement-modal [isOpen]="showCreateModal()" (onClose)="closeCreateModal()"
-  (onSave)="onAchievementCreated()">
+<app-create-achievement-modal [isOpen]="showCreateModal()" [achievementToEdit]="editingAchievement()"
+  (onClose)="closeCreateModal()" (onSave)="onAchievementCreated()">
 </app-create-achievement-modal>
 
 <p-confirmDialog styleClass="confirm-dialog"></p-confirmDialog>
