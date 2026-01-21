@@ -13,7 +13,8 @@
       <nav class="desktop-nav">
         @for (item of menuItems; track item.label) {
         @if (item.routerLink) {
-        <a [routerLink]="item.routerLink" routerLinkActive="active" class="nav-link" pRipple>
+        <a [routerLink]="item.routerLink" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+          class="nav-link" pRipple>
           <i [class]="item.icon"></i>
           <span>{{ item.label }}</span>
         </a>
@@ -27,7 +28,8 @@
 
           <div class="dropdown-content">
             @for (subItem of item.items; track subItem.label) {
-            <a [routerLink]="subItem.routerLink" routerLinkActive="active" class="dropdown-item" pRipple>
+            <a [routerLink]="subItem.routerLink" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+              class="dropdown-item" pRipple>
               <i [class]="subItem.icon"></i>
               <span>{{ subItem.label }}</span>
             </a>
@@ -84,8 +86,8 @@
     <nav class="mobile-nav">
       @for (item of menuItems; track item.label) {
       @if (item.routerLink) {
-      <a [routerLink]="item.routerLink" routerLinkActive="active" class="mobile-nav-item" pRipple
-        (click)="toggleSidebar()">
+      <a [routerLink]="item.routerLink" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+        class="mobile-nav-item" pRipple (click)="toggleSidebar()">
         <i [class]="item.icon"></i>
         <span>{{ item.label }}</span>
       </a>
@@ -97,8 +99,8 @@
         </div>
 
         @for (subItem of item.items; track subItem.label) {
-        <a [routerLink]="subItem.routerLink" routerLinkActive="active" class="mobile-nav-subitem" pRipple
-          (click)="toggleSidebar()">
+        <a [routerLink]="subItem.routerLink" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+          class="mobile-nav-subitem" pRipple (click)="toggleSidebar()">
           <i [class]="subItem.icon"></i>
           <span>{{ subItem.label }}</span>
         </a>
