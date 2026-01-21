@@ -1,4 +1,3 @@
-import { DatePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
@@ -15,7 +14,7 @@ import { ReportService } from '../../services/report.service';
 
 @Component({
   selector: 'app-reports',
-  imports: [DatePipe, FormsModule, CardModule, ButtonModule, DatePickerModule, ChartModule, DialogModule, ProgressSpinnerModule, MarkdownPipe],
+  imports: [FormsModule, CardModule, ButtonModule, DatePickerModule, ChartModule, DialogModule, ProgressSpinnerModule, MarkdownPipe],
   templateUrl: './reports.component.html',
   styleUrls: ['./reports.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush

@@ -7,14 +7,8 @@ export const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'dashboard',
+        redirectTo: 'github-import',
         pathMatch: 'full'
-      },
-      {
-        path: 'dashboard',
-        loadComponent: () =>
-          import('./components/dashboard/dashboard.component')
-            .then(m => m.DashboardComponent)
       },
       {
         path: 'timeline',

@@ -29,9 +29,14 @@ export class GithubImportService {
     return this.http.post(`${this.apiUrl}/import/commits`, null, { params });
   }
 
-  importRepositories(token?: string): Observable<any> {
+  importRepositories(token?: string): Observable<string[]> {
     let params = new HttpParams();
     if (token) params = params.set('token', token);
-    return this.http.post(`${this.apiUrl}/import/repositories`, null, { params });
+    return this.http.post<string[]>(`${this.apiUrl}/import/repositories`, null, { params });
   }
+
+  saveToken(token: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/token`, { token });
+  }
+
 }

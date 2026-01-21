@@ -15,7 +15,7 @@ export class AuthCallbackComponent implements OnInit {
     effect(() => {
       const user = this.auth.user();
       if (user) {
-        this.router.navigate(['/dashboard'], { replaceUrl: true });
+        this.router.navigate(['/github-import'], { replaceUrl: true });
       }
     });
   }

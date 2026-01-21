@@ -1,39 +1,80 @@
 <div class="import-container">
+  @if (!repositories().length) {
   <p-card>
-    <h2>GitHub Import</h2>
-
-    <div class="form-row">
-      <label>Personal Access Token</label>
-      <input pInputText type="text" [ngModel]="token()" (ngModelChange)="token.set($event)" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx"/>
-      <small class="help-text">
-        Create a token at
-        <a href="https://github.com/settings/tokens/new?scopes=repo,read:user&description=farigab-bragdoc"
-          target="_blank">
-          GitHub Settings
-        </a>
-        with repo scope
-      </small>
+    <div class="import-header">
+      <div class="steps">
+        <div class="step">✔</div>
+        <div class="step">2</div>
+      </div>
+      <div class="spacer"></div>
     </div>
 
-    <div class="form-row">
-      <label>Repository (owner/repo) (optional)</label>
-      <input pInputText type="text" [ngModel]="repository()" (ngModelChange)="repository.set($event)" />
-    </div>
+    <h2 class="section-title">Which repositories to include?</h2>
+    <p class="subtitle">
+      Select specific repositories or leave empty to include all
+    </p>
 
     <div class="form-row">
-      <label>Min Changes (for commits)</label>
-      <input pInputText type="number" [ngModel]="minChanges()" (ngModelChange)="minChanges.set($event)" />
+      <label for="token-input">Personal Access Token</label>
+      <input pInputText id="token-input" type="text" [value]="token()" (input)="token.set($any($event.target).value)"
+        placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" aria-describedby="token-help" />
+        <small id="token-help" class="help-text">
+          Create a token at <a href="https://github.com/settings/tokens/new?scopes=repo,read:user&description=farigab-bragdoc"
+            target="_blank" rel="noopener noreferrer">GitHub Settings</a> with repo scope
+        </small>
     </div>
 
     <div class="buttons">
-      <button pButton label="Import Pull Requests" (click)="importPullRequests()" [loading]="loading().prs"></button>
-
-      <button pButton label="Import Commits" (click)="importCommits()" [loading]="loading().commits"></button>
+      <button pButton label="Connect" icon="pi pi-github" (click)="saveToken()" class="p-button-secondary"
+        [loading]="loading().repos"></button>
     </div>
   </p-card>
+  }
 
-  <p-card *ngIf="result()">
+  @if (repositories().length) {
+  <p-card>
+    <div class="card-header">
+      <h3>Which repositories to include?</h3>
+      <div class="repo-actions">
+        <button type="button" class="link-button" (click)="selectAll()" aria-label="Select all repositories">
+          Select All
+        </button>
+        <button type="button" class="link-button" (click)="clearSelection()" aria-label="Clear selection">
+          Clear
+        </button>
+      </div>
+    </div>
+
+    <p class="subtitle">
+      Select specific repositories or leave empty to include all
+    </p>
+
+    <div class="repo-grid" role="list">
+      @for (repo of repositories(); track repo) {
+      <div class="repo-card" role="listitem">
+        <label class="repo-checkbox">
+          <input type="checkbox" [checked]="selectedRepos().has(repo)" (change)="toggleSelection(repo)"
+            [attr.aria-label]="'Select ' + repo" />
+          <span class="repo-name">{{ repo }}</span>
+        </label>
+      </div>
+      }
+    </div>
+
+    <div class="repo-footer">
+      <button pButton label="Back" class="p-button-outlined"></button>
+      <div class="footer-actions">
+        <div class="timer" aria-live="polite">~30 seconds to generate</div>
+        <button pButton label="Continue" (click)="continueWithSelection()"></button>
+      </div>
+    </div>
+  </p-card>
+  }
+
+  @if (result()) {
+  <p-card>
     <h3>Result</h3>
     <pre>{{ result() | json }}</pre>
   </p-card>
+  }
 </div>
