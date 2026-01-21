@@ -510,7 +510,6 @@
 .main-content {
   flex: 1;
   padding: var(--spacing-2xl) 0;
-  min-height: calc(100vh - 300px);
   animation: fadeIn var(--transition-slow) ease-out;
 }
 
