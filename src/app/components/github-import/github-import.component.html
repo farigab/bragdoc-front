@@ -4,34 +4,33 @@
 
     <div class="form-row">
       <label>Personal Access Token</label>
-      <input pInputText type="text" [(ngModel)]="_token" />
-      <small class="help-text">Create a token at <a
-          href="https://github.com/settings/tokens/new?scopes=repo,read:user&description=farigab-bragdoc"
-          target="_blank">GitHub Settings</a> with repo scope</small>
+      <input pInputText type="text" [ngModel]="token()" (ngModelChange)="token.set($event)" />
+      <small class="help-text">
+        Create a token at
+        <a href="https://github.com/settings/tokens/new?scopes=repo,read:user&description=farigab-bragdoc"
+          target="_blank">
+          GitHub Settings
+        </a>
+        with repo scope
+      </small>
     </div>
 
     <div class="form-row">
       <label>Repository (owner/repo) (optional)</label>
-      <input pInputText type="text" [(ngModel)]="_repo" />
+      <input pInputText type="text" [ngModel]="repository()" (ngModelChange)="repository.set($event)" />
     </div>
 
     <div class="form-row">
       <label>Min Changes (for commits)</label>
-      <input pInputText type="number" [(ngModel)]="_minChanges" />
+      <input pInputText type="number" [ngModel]="minChanges()" (ngModelChange)="minChanges.set($event)" />
     </div>
 
     <div class="buttons">
-      <button pButton label="Get Username" (click)="getUsername()" [disabled]="loading()"></button>
-      <button pButton label="Import Pull Requests" (click)="importPullRequests()" [disabled]="loading()"></button>
-      <button pButton label="Import Issues" (click)="importIssues()" [disabled]="loading()"></button>
-      <button pButton label="Import Commits" (click)="importCommits()" [disabled]="loading()"></button>
-      <button pButton label="Import Repositories" (click)="importRepositories()" [disabled]="loading()"></button>
+      <button pButton label="Import Pull Requests" (click)="importPullRequests()" [loading]="loading().prs"></button>
+
+      <button pButton label="Import Commits" (click)="importCommits()" [loading]="loading().commits"></button>
     </div>
   </p-card>
-
-  <div class="overlay" *ngIf="loading()">
-    <div class="spinner"></div>
-  </div>
 
   <p-card *ngIf="result()">
     <h3>Result</h3>

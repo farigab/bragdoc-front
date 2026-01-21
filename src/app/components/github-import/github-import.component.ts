@@ -28,58 +28,71 @@ import { GithubImportService } from '../../services/github-import.service';
 export class GithubImportComponent {
   private readonly service = inject(GithubImportService);
 
-  protected readonly repository = signal('');
-  protected readonly token = signal('');
-  protected readonly minChanges = signal(1);
-  protected readonly result = signal<any | null>(null);
-  protected readonly loading = signal(false);
-  protected _repo = '';
-  protected _token = '';
-  protected _minChanges = 1;
+  readonly repository = signal('');
+  readonly token = signal('');
+  readonly minChanges = signal(1);
 
-  protected async getUsername(): Promise<void> {
-    this.loading.set(true);
-    this.service.getUsername(this._token || undefined).subscribe({
-      next: (res) => {
+  readonly result = signal<any | null>(null);
+  readonly loading = signal({
+    prs: false,
+    issues: false,
+    commits: false,
+    repos: false
+  });
+
+  importPullRequests(): void {
+    this.setLoading('prs', true);
+
+    this.service
+      .importPullRequests(this.repository(), this.token() || undefined)
+      .subscribe(this.handleResponse('prs'));
+  }
+
+  importIssues(): void {
+    this.setLoading('issues', true);
+
+    this.service
+      .importIssues(this.repository(), this.token() || undefined)
+      .subscribe(this.handleResponse('issues'));
+  }
+
+  importCommits(): void {
+    this.setLoading('commits', true);
+
+    this.service
+      .importCommits(
+        this.repository(),
+        this.minChanges(),
+        this.token() || undefined
+      )
+      .subscribe(this.handleResponse('commits'));
+  }
+
+  importRepositories(): void {
+    this.setLoading('repos', true);
+
+    this.service
+      .importRepositories(this.token() || undefined)
+      .subscribe(this.handleResponse('repos'));
+  }
+
+  private setLoading(
+    key: keyof ReturnType<typeof this.loading>,
+    value: boolean
+  ) {
+    this.loading.update(l => ({ ...l, [key]: value }));
+  }
+
+  private handleResponse(key: keyof ReturnType<typeof this.loading>) {
+    return {
+      next: (res: any) => {
         this.result.set(res);
-        this.loading.set(false);
+        this.setLoading(key, false);
       },
-      error: (err) => {
-        this.result.set({ error: err.message || err });
-        this.loading.set(false);
+      error: (err: any) => {
+        this.result.set({ error: err.message ?? err });
+        this.setLoading(key, false);
       }
-    });
-  }
-
-  protected importPullRequests(): void {
-    this.loading.set(true);
-    this.service.importPullRequests(this._repo, this._token || undefined).subscribe({
-      next: (res) => { this.result.set(res); this.loading.set(false); },
-      error: (err) => { this.result.set({ error: err.message || err }); this.loading.set(false); }
-    });
-  }
-
-  protected importIssues(): void {
-    this.loading.set(true);
-    this.service.importIssues(this._repo, this._token || undefined).subscribe({
-      next: (res) => { this.result.set(res); this.loading.set(false); },
-      error: (err) => { this.result.set({ error: err.message || err }); this.loading.set(false); }
-    });
-  }
-
-  protected importCommits(): void {
-    this.loading.set(true);
-    this.service.importCommits(this._repo || undefined, Number(this._minChanges) || 1, this._token || undefined).subscribe({
-      next: (res) => { this.result.set(res); this.loading.set(false); },
-      error: (err) => { this.result.set({ error: err.message || err }); this.loading.set(false); }
-    });
-  }
-
-  protected importRepositories(): void {
-    this.loading.set(true);
-    this.service.importRepositories(this._token || undefined).subscribe({
-      next: (res) => { this.result.set(res); this.loading.set(false); },
-      error: (err) => { this.result.set({ error: err.message || err }); this.loading.set(false); }
-    });
+    };
   }
 }
