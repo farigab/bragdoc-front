@@ -4,7 +4,7 @@
       <h1 class="page-title">Achievements</h1>
       <p class="page-subtitle">Gerencie seus achievements profissionais</p>
     </div>
-    <a routerLink="/achievements/new" pButton label="Novo Achievement" icon="pi pi-plus" class="btn-primary"></a>
+    <button pButton (click)="openCreateModal()" label="Novo Achievement" icon="pi pi-plus" class="btn-primary"></button>
   </div>
 
   <div class="filters-card fade-in">
@@ -80,6 +80,10 @@
     </p-table>
   </div>
 </div>
+
+<app-create-achievement-modal [isOpen]="showCreateModal()" (onClose)="closeCreateModal()"
+  (onSave)="onAchievementCreated()">
+</app-create-achievement-modal>
 
 <p-confirmDialog styleClass="confirm-dialog"></p-confirmDialog>
 <p-toast></p-toast>

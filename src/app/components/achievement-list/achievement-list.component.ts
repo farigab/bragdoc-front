@@ -6,36 +6,38 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { SelectModule } from 'primeng/select';
 import { InputTextModule } from 'primeng/inputtext';
+import { SelectModule } from 'primeng/select';
 import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { ToastModule } from 'primeng/toast';
 import { ACHIEVEMENT_CATEGORIES, Achievement } from '../../models/achievement.model';
 import { AchievementService } from '../../services/achievement.service';
+import { CreateAchievementModalComponent } from '../create-achievement-modal/create-achievement-modal.component';
 
 @Component({
-    selector: 'app-achievement-list',
-    imports: [
-        DatePipe,
-        RouterLink,
-        FormsModule,
-        TableModule,
-        ButtonModule,
-        CardModule,
-        InputTextModule,
-        SelectModule,
-        TagModule,
-        ConfirmDialogModule,
-        ToastModule
-    ],
-    providers: [ConfirmationService, MessageService],
-    templateUrl: './achievement-list.component.html',
-    styleUrls: ['./achievement-list.component.css'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    host: {
-        'class': 'achievement-list-page'
-    }
+  selector: 'app-achievement-list',
+  imports: [
+    DatePipe,
+    RouterLink,
+    FormsModule,
+    TableModule,
+    ButtonModule,
+    CardModule,
+    InputTextModule,
+    SelectModule,
+    TagModule,
+    ConfirmDialogModule,
+    ToastModule,
+    CreateAchievementModalComponent
+  ],
+  providers: [ConfirmationService, MessageService],
+  templateUrl: './achievement-list.component.html',
+  styleUrls: ['./achievement-list.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    'class': 'achievement-list-page'
+  }
 })
 export class AchievementListComponent implements OnInit {
   private readonly achievementService = inject(AchievementService);
@@ -46,6 +48,7 @@ export class AchievementListComponent implements OnInit {
   protected readonly loading = signal(true);
   protected readonly searchText = signal('');
   protected readonly selectedCategory = signal<string | null>(null);
+  protected readonly showCreateModal = signal(false);
 
   protected readonly categoriesArray = Array.from(ACHIEVEMENT_CATEGORIES);
 
@@ -144,5 +147,18 @@ export class AchievementListComponent implements OnInit {
       other: 'secondary'
     };
     return severityMap[category] || 'secondary';
+  }
+
+  protected openCreateModal(): void {
+    this.showCreateModal.set(true);
+  }
+
+  protected closeCreateModal(): void {
+    this.showCreateModal.set(false);
+  }
+
+  protected onAchievementCreated(): void {
+    this.closeCreateModal();
+    this.loadAchievements();
   }
 }
