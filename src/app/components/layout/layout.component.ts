@@ -29,7 +29,6 @@ export class LayoutComponent {
 
   private readonly auth = inject(AuthService);
 
-  protected readonly token = this.auth.token;
   protected readonly user = this.auth.user;
   protected readonly sidebarVisible = signal(false);
 
@@ -40,6 +39,10 @@ export class LayoutComponent {
     { label: 'Reports', icon: 'pi pi-chart-bar', routerLink: '/reports' },
     { label: 'GitHub Import', icon: 'pi pi-upload', routerLink: '/github-import' }
   ];
+
+  constructor() {
+    this.auth.loadUser();
+  }
 
   protected toggleSidebar(): void {
     this.sidebarVisible.update(v => !v);

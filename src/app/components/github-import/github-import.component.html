@@ -4,7 +4,7 @@
 
     <div class="form-row">
       <label>Personal Access Token</label>
-      <input pInputText type="text" [ngModel]="token()" (ngModelChange)="token.set($event)" />
+      <input pInputText type="text" [ngModel]="token()" (ngModelChange)="token.set($event)" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx"/>
       <small class="help-text">
         Create a token at
         <a href="https://github.com/settings/tokens/new?scopes=repo,read:user&description=farigab-bragdoc"
