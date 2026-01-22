@@ -6,27 +6,25 @@ import { AuthService } from '../services/auth.service';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const authService = inject(AuthService);
+  const clonedReq = req.clone({ withCredentials: true });
 
-  const cloned = req.clone({ withCredentials: true });
-
-  return next(cloned).pipe(
+  return next(clonedReq).pipe(
     catchError((error: HttpErrorResponse) => {
-      if (error.status === 401 && !req.url.includes('/auth/refresh')) {
+      if (error.status === 401 && error.error?.code === 'TOKEN_EXPIRED') {
         if (authService.isRefreshInProgress()) {
           return throwError(() => error);
         }
 
         return authService.refreshToken().pipe(
-          switchMap((success) => {
+          switchMap((success: boolean) => {
             if (success) {
               const retryReq = req.clone({ withCredentials: true });
               return next(retryReq);
             }
-
             return throwError(() => error);
           }),
-          catchError((refreshError) => {
-            return throwError(() => error);
+          catchError((refreshError: unknown) => {
+            return throwError(() => refreshError);
           })
         );
       }

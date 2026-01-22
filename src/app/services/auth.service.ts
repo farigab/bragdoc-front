@@ -11,7 +11,7 @@ export interface AuthUser {
   readonly login: string;
   readonly name: string;
   readonly avatarUrl?: string;
-  readonly email?: string;
+  readonly hasGitHubToken: boolean;
 }
 
 @Injectable({ providedIn: 'root' })
