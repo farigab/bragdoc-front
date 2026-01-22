@@ -11,20 +11,10 @@ export const routes: Routes = [
         pathMatch: 'full'
       },
       {
-        path: 'timeline',
-        loadComponent: () =>
-          import('./components/timeline/timeline.component')
-            .then(m => m.TimelineComponent)
-      },
-      {
         path: 'reports',
         loadComponent: () =>
           import('./components/reports/reports.component')
             .then(m => m.ReportsComponent)
-      },
-      {
-        path: 'achievements',
-        loadComponent: () => import('./components/achievement-list/achievement-list.component').then(m => m.AchievementListComponent)
       },
       {
         path: 'github-import',

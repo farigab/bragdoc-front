@@ -34,8 +34,6 @@ export class LayoutComponent {
 
   protected readonly menuItems: readonly MenuItem[] = [
     { label: 'GitHub Import', icon: 'pi pi-upload', routerLink: '/github-import' },
-    { label: 'Achievements', icon: 'pi pi-star', routerLink: '/achievements' },
-    { label: 'Timeline', icon: 'pi pi-clock', routerLink: '/timeline' },
     { label: 'Reports', icon: 'pi pi-chart-bar', routerLink: '/reports' }
   ];
 
