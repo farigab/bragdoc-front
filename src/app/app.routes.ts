@@ -7,7 +7,7 @@ export const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'github-import',
+        redirectTo: '',
         pathMatch: 'full'
       },
       {
@@ -17,7 +17,7 @@ export const routes: Routes = [
             .then(m => m.ReportsComponent)
       },
       {
-        path: 'github-import',
+        path: '',
         loadComponent: () => import('./components/github-import/github-import.component').then(m => m.GithubImportComponent)
       },
     ]

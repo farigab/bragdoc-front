@@ -19,7 +19,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     if (this.auth.user()) {
-      this.router.navigate(['/github-import'], { replaceUrl: true });
+      this.router.navigate([''], { replaceUrl: true });
     }
   }
 

@@ -32,10 +32,6 @@ export class LayoutComponent {
   protected readonly user = this.auth.user;
   protected readonly sidebarVisible = signal(false);
 
-  protected readonly menuItems: readonly MenuItem[] = [
-    { label: 'Github Analysis', icon: 'pi pi-upload', routerLink: '/github-import' }
-  ];
-
   constructor() {
     // loadUser moved to app.component.ts
   }
