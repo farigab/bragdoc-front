@@ -1,13 +1,15 @@
+import { JsonPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, inject, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { JsonPipe } from '@angular/common';
+import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
-import { InputTextModule } from 'primeng/inputtext';
 import { DatePickerModule } from 'primeng/datepicker';
+import { InputTextModule } from 'primeng/inputtext';
 import { ToastModule } from 'primeng/toast';
-import { MessageService } from 'primeng/api';
 import { GithubImportService } from '../../services/github-import.service';
+import { ReportsComponent } from '../reports/reports.component';
+import { AuthService } from '../../services/auth.service';
 
 interface LoadingState {
   prs: boolean;
@@ -30,7 +32,8 @@ type ImportStep = 'token' | 'repositories' | 'dateRange' | 'complete';
     CardModule,
     InputTextModule,
     DatePickerModule,
-    ToastModule
+    ToastModule,
+    ReportsComponent
   ],
   providers: [MessageService],
   templateUrl: './github-import.component.html',
@@ -41,6 +44,7 @@ type ImportStep = 'token' | 'repositories' | 'dateRange' | 'complete';
 export class GithubImportComponent implements OnInit {
   private readonly service = inject(GithubImportService);
   private readonly messageService = inject(MessageService);
+  private readonly authService = inject(AuthService);
 
   readonly currentStep = signal<ImportStep>('token');
   readonly token = signal('');
@@ -76,7 +80,7 @@ export class GithubImportComponent implements OnInit {
     }
 
     this.setLoading('repos', true);
-    this.service.saveToken(token).subscribe({
+    this.authService.saveToken(token).subscribe({
       next: () => {
         this.loadRepositories();
       },
@@ -116,7 +120,7 @@ export class GithubImportComponent implements OnInit {
 
   clearToken(): void {
     this.setLoading('repos', true);
-    this.service.clearToken().subscribe({
+    this.authService.clearToken().subscribe({
       next: () => {
         this.resetState();
         this.setLoading('repos', false);

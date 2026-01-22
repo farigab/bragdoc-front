@@ -52,12 +52,4 @@ export class GithubImportService {
   importData(request: ImportDataRequest): Observable<ImportDataResponse> {
     return this.http.post<ImportDataResponse>(`${this.apiUrl}/import`, request);
   }
-
-  saveToken(token: string): Observable<unknown> {
-    return this.http.post(`${this.apiUrl}/token`, { token });
-  }
-
-  clearToken(): Observable<unknown> {
-    return this.http.delete(`${this.apiUrl}/token`);
-  }
 }

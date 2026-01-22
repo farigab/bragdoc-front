@@ -16,6 +16,7 @@ export interface AuthUser {
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
+  private readonly apiUrl = `${environment.apiUrl}/auth`;
   readonly user = signal<AuthUser | null>(null);
   readonly router = inject(Router);
 
@@ -28,6 +29,14 @@ export class AuthService {
   loginWithGithub(): void {
     const redirect = `${location.origin}/auth-callback`;
     window.location.href = `${environment.apiUrl}/auth/github?redirect=${encodeURIComponent(redirect)}`;
+  }
+
+  saveToken(token: string): Observable<unknown> {
+    return this.http.post(`${this.apiUrl}/token`, { token });
+  }
+
+  clearToken(): Observable<unknown> {
+    return this.http.delete(`${this.apiUrl}/token`);
   }
 
   logout(): void {
