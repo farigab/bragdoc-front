@@ -9,13 +9,12 @@
       </div>
     </div>
 
-    <!-- PrimeNG Stepper com estrutura correta -->
+    <!-- PrimeNG Stepper -->
     <p-stepper [(value)]="activeStep" [linear]="true">
 
-      <!-- Step List (Headers) using custom templates to show icons -->
       <p-step-list>
         <p-step [value]="1" class="step-header">
-          <ng-template #content let-activateCallback="activateCallback" let-value="value">
+          <ng-template #content let-value="value">
             <span class="step-circle" [class.active]="value <= activeStep">
               <i class="pi pi-github"></i>
             </span>
@@ -23,7 +22,7 @@
         </p-step>
 
         <p-step [value]="2" class="step-header">
-          <ng-template #content let-activateCallback="activateCallback" let-value="value">
+          <ng-template #content let-value="value">
             <span class="step-circle" [class.active]="value <= activeStep">
               <i class="pi pi-folder"></i>
             </span>
@@ -31,7 +30,7 @@
         </p-step>
 
         <p-step [value]="3" class="step-header">
-          <ng-template #content let-activateCallback="activateCallback" let-value="value">
+          <ng-template #content let-value="value">
             <span class="step-circle" [class.active]="value <= activeStep">
               <i class="pi pi-calendar"></i>
             </span>
@@ -39,7 +38,6 @@
         </p-step>
       </p-step-list>
 
-      <!-- Step Panels (Content) -->
       <p-step-panels>
 
         <!-- Step 1: Token Input -->
@@ -47,13 +45,11 @@
           <ng-template #content let-activateCallback="activateCallback">
             <div class="step-content">
               <h2 class="section-title">Connect GitHub Account</h2>
-              <p class="subtitle">
-                Enter your Personal Access Token to get started
-              </p>
+              <p class="subtitle">Enter your Personal Access Token to get started</p>
 
               <div class="form-row">
                 <label for="token-input">Personal Access Token</label>
-                <input pInputText id="token-input" type="text" [(ngModel)]="token"
+                <input pInputText id="token-input" type="text" [ngModel]="token()" (ngModelChange)="token.set($event)"
                   placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" aria-describedby="token-help" />
                 <small id="token-help" class="help-text">
                   Create a token at
@@ -66,7 +62,7 @@
               </div>
 
               <div class="step-actions">
-                <p-button label="Connect" icon="pi pi-github" (onClick)="saveToken(activateCallback)"
+                <p-button label="Connect" icon="pi pi-github" (onClick)="saveToken()"
                   [loading]="loading().repos" [disabled]="!token()" />
               </div>
             </div>
@@ -80,12 +76,8 @@
               <div class="card-header">
                 <h2 class="section-title">Select Repositories</h2>
                 <div class="repo-actions">
-                  <button type="button" class="link-button" (click)="selectAll()">
-                    Select All
-                  </button>
-                  <button type="button" class="link-button" (click)="clearSelection()">
-                    Clear
-                  </button>
+                  <button type="button" class="link-button" (click)="selectAll()">Select All</button>
+                  <button type="button" class="link-button" (click)="clearSelection()">Clear</button>
                 </div>
               </div>
 
@@ -111,7 +103,7 @@
 
               <div class="step-actions">
                 <p-button label="Back" severity="secondary" [outlined]="true"
-                  (onClick)="clearToken(activateCallback)" />
+                  (onClick)="clearToken()" />
                 <p-button label="Continue" (onClick)="activateCallback(3)" />
               </div>
             </div>
@@ -123,21 +115,21 @@
           <ng-template #content let-activateCallback="activateCallback">
             <div class="step-content">
               <h2 class="section-title">Select Date Range</h2>
-              <p class="subtitle">
-                Choose the time period for importing data
-              </p>
+              <p class="subtitle">Choose the time period for importing data</p>
 
               <div class="date-range-container">
                 <div class="form-row">
                   <label for="start-date">Start Date</label>
-                  <p-datepicker inputId="start-date" [(ngModel)]="startDate" dateFormat="yy-mm-dd" [showIcon]="true"
-                    placeholder="Select start date" [maxDate]="endDate() ?? maxDate" [iconDisplay]="'input'" />
+                  <p-datepicker inputId="start-date" [ngModel]="startDate()" (ngModelChange)="startDate.set($event)"
+                    dateFormat="yy-mm-dd" [showIcon]="true" placeholder="Select start date"
+                    [maxDate]="endDate() ?? maxDate" [iconDisplay]="'input'" />
                 </div>
 
                 <div class="form-row">
                   <label for="end-date">End Date</label>
-                  <p-datepicker inputId="end-date" [(ngModel)]="endDate" dateFormat="yy-mm-dd" [showIcon]="true"
-                    placeholder="Select end date" [minDate]="startDate()" [maxDate]="maxDate" [iconDisplay]="'input'" />
+                  <p-datepicker inputId="end-date" [ngModel]="endDate()" (ngModelChange)="endDate.set($event)"
+                    dateFormat="yy-mm-dd" [showIcon]="true" placeholder="Select end date" [minDate]="startDate()"
+                    [maxDate]="maxDate" [iconDisplay]="'input'" />
                 </div>
               </div>
 
@@ -209,8 +201,7 @@
   <aside class="side-panel">
     <div class="side-card github-card">
       <div class="side-card-header">
-        <i class="pi pi-github"></i>
-        GitHub Connected
+        <i class="pi pi-github"></i> GitHub Connected
       </div>
       <div class="side-card-body github-connected">
         @if (user(); as u) {

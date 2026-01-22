@@ -66,14 +66,21 @@ export class GithubImportComponent implements OnInit {
   readonly isImporting = computed(() => this.loading().import);
   readonly user = this.authService.user;
 
-  // active step for the Stepper (used by the template for two-way binding)
-  activeStep = 1;
+  private signalActiveStep = signal<number>(1);
+
+  get activeStep(): number {
+    return this.signalActiveStep();
+  }
+
+  set activeStep(value: number) {
+    this.signalActiveStep.set(value);
+  }
 
   ngOnInit(): void {
     this.checkForSavedToken();
   }
 
-  saveToken(activateCallback: any): void {
+  saveToken(): void {
     const token = this.token();
     if (!token) {
       this.showError('Token is required');
@@ -83,7 +90,7 @@ export class GithubImportComponent implements OnInit {
     this.setLoading('repos', true);
     this.authService.saveToken(token).subscribe({
       next: () => {
-        this.loadRepositories(activateCallback);
+        this.loadRepositories();
       },
       error: (err: unknown) => {
         this.handleError('repos', err);
@@ -111,18 +118,18 @@ export class GithubImportComponent implements OnInit {
     });
   }
 
-  clearToken(activateCallback: any): void {
+  clearToken(): void {
     this.setLoading('repos', true);
     this.authService.clearToken().subscribe({
       next: () => {
         this.resetState();
         this.setLoading('repos', false);
-        activateCallback(1);
+        this.activeStep = 1;
       },
       error: (err: unknown) => {
         this.resetState();
         this.handleError('repos', err);
-        activateCallback(1);
+        this.activeStep = 1;
       }
     });
   }
@@ -168,29 +175,16 @@ export class GithubImportComponent implements OnInit {
 
   private checkForSavedToken(): void {
     this.setLoading('repos', true);
-    this.service.importRepositories().subscribe({
-      next: (repos: string[] | null) => {
-        if (repos && repos.length > 0) {
-          this.repositories.set(repos);
-        }
-        this.setLoading('repos', false);
-      },
-      error: () => {
-        this.setLoading('repos', false);
-      }
-    });
+    this.loadRepositories();
   }
 
-  private loadRepositories(activateCallback?: any): void {
+  private loadRepositories(): void {
     this.setLoading('repos', true);
     this.service.importRepositories(this.token()).subscribe({
       next: (repos: string[] | null) => {
         this.repositories.set(repos ?? []);
+        this.activeStep = 2;
         this.setLoading('repos', false);
-
-        if (activateCallback) {
-          activateCallback(2);
-        }
       },
       error: (err: unknown) => {
         this.handleError('repos', err);
