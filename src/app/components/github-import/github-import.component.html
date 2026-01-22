@@ -62,8 +62,8 @@
               </div>
 
               <div class="step-actions">
-                <p-button label="Connect" icon="pi pi-github" (onClick)="saveToken()"
-                  [loading]="loading().repos" [disabled]="!token()" />
+                <p-button label="Connect" icon="pi pi-github" (onClick)="saveToken()" [loading]="loading().repos"
+                  [disabled]="!token()" />
               </div>
             </div>
           </ng-template>
@@ -102,8 +102,7 @@
               </div>
 
               <div class="step-actions">
-                <p-button label="Back" severity="secondary" [outlined]="true"
-                  (onClick)="clearToken()" />
+                <p-button label="Back" severity="secondary" [outlined]="true" (onClick)="clearToken()" />
                 <p-button label="Continue" (onClick)="activateCallback(3)" />
               </div>
             </div>
@@ -121,15 +120,15 @@
                 <div class="form-row">
                   <label for="start-date">Start Date</label>
                   <p-datepicker inputId="start-date" [ngModel]="startDate()" (ngModelChange)="startDate.set($event)"
-                    dateFormat="yy-mm-dd" [showIcon]="true" placeholder="Select start date"
+                    dateFormat="yy-mm-dd" [showIcon]="true" placeholder="Select start date" appendTo="body"
                     [maxDate]="endDate() ?? maxDate" [iconDisplay]="'input'" />
                 </div>
 
                 <div class="form-row">
                   <label for="end-date">End Date</label>
                   <p-datepicker inputId="end-date" [ngModel]="endDate()" (ngModelChange)="endDate.set($event)"
-                    dateFormat="yy-mm-dd" [showIcon]="true" placeholder="Select end date" [minDate]="startDate()"
-                    [maxDate]="maxDate" [iconDisplay]="'input'" />
+                    dateFormat="yy-mm-dd" [showIcon]="true" placeholder="Select end date" appendTo="body"
+                    [minDate]="startDate()" [maxDate]="maxDate" [iconDisplay]="'input'" />
                 </div>
               </div>
 

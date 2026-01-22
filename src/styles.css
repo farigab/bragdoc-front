@@ -600,21 +600,6 @@ p {
   background: var(--primary);
 }
 
-/* ==========================================
-   PRIMENG Z-INDEX FIX
-   ========================================== */
-
-.p-datepicker,
-.p-datepicker-panel,
-.p-overlaypanel,
-.p-dialog,
-.p-tooltip,
-.p-calendar,
-.p-overlay-wrapper,
-.p-overlaypanel-wrapper,
-.p-datepicker-wrapper {
-  z-index: 99999 !important;
-}
 
 /* ==========================================
    PRIMENG COMPONENT CUSTOMIZATION
