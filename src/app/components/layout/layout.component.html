@@ -46,7 +46,6 @@
       <div class="header-actions">
         @if (user(); as u) {
         <div class="user-info">
-          <img [src]="u.avatarUrl" [alt]="u.name">
           <div class="user-details">
             <button (click)="logout()" class="logout-btn" pButton label="Sair" icon="pi pi-sign-out" [text]="true"
               [size]="'small'">

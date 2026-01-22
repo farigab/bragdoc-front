@@ -3,12 +3,12 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background: var(--apple-bg-secondary, #f2f2f7);
+  background: var(--bg);
 }
 
 /* Header Styles */
 .apple-header {
-  background: rgba(255, 255, 255, 0.8);
+  background: rgba(42, 39, 61, 0.6);
   backdrop-filter: saturate(180%) blur(20px);
   -webkit-backdrop-filter: saturate(180%) blur(20px);
   border-bottom: 1px solid rgba(0, 0, 0, 0.08);
@@ -36,7 +36,7 @@
   gap: var(--spacing-sm, 8px);
   font-weight: 600;
   font-size: 1.25rem;
-  color: var(--apple-blue, #007aff);
+  color: var(--apple-blue);
   cursor: pointer;
   transition: transform var(--transition-fast, 150ms);
 }
@@ -65,6 +65,7 @@
   .logo-image {
     height: 36px;
   }
+
   .logo-text {
     display: none;
   }
@@ -91,7 +92,7 @@
   border-radius: var(--radius-md, 12px);
   font-size: 0.9375rem;
   font-weight: 500;
-  color: var(--apple-text-primary, #000);
+  color: var(--apple-text-primary);
   text-decoration: none;
   transition: all var(--transition-base, 250ms);
   cursor: pointer;
@@ -101,13 +102,13 @@
 }
 
 .nav-link:hover {
-  background: rgba(0, 122, 255, 0.08);
-  color: var(--apple-blue, #007aff);
+  background: rgba(107, 93, 211, 0.08);
+  color: var(--apple-blue);
 }
 
 .nav-link.active {
-  background: rgba(0, 122, 255, 0.12);
-  color: var(--apple-blue, #007aff);
+  background: rgba(107, 93, 211, 0.12);
+  color: var(--primary);
   font-weight: 600;
 }
 
@@ -130,7 +131,7 @@
   position: absolute;
   top: calc(100% + 8px);
   left: 0;
-  background: rgba(255, 255, 255, 0.95);
+  background: var(--surface);
   backdrop-filter: saturate(180%) blur(20px);
   border-radius: var(--radius-lg, 16px);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
@@ -149,19 +150,19 @@
   padding: var(--spacing-sm, 8px) var(--spacing-md, 16px);
   border-radius: var(--radius-sm, 8px);
   font-size: 0.9375rem;
-  color: var(--apple-text-primary, #000);
+  color: var(--apple-text-primary);
   text-decoration: none;
   transition: all var(--transition-fast, 150ms);
 }
 
 .dropdown-item:hover {
-  background: rgba(0, 122, 255, 0.08);
-  color: var(--apple-blue, #007aff);
+  background: rgba(107, 93, 211, 0.08);
+  color: var(--apple-blue);
 }
 
 .dropdown-item.active {
-  background: rgba(0, 122, 255, 0.12);
-  color: var(--apple-blue, #007aff);
+  background: rgba(107, 93, 211, 0.12);
+  color: var(--primary);
   font-weight: 600;
 }
 
@@ -233,12 +234,12 @@
   font-size: 0.875rem;
   padding: var(--spacing-xs, 4px) var(--spacing-sm, 8px);
   border-radius: var(--radius-sm, 8px);
-  color: var(--apple-red, #ff3b30);
+  color: var(--apple-red);
   transition: all var(--transition-fast, 150ms);
 }
 
 .logout-btn:hover {
-  background: rgba(255, 59, 48, 0.08);
+  background: rgba(255, 155, 255, 0.08);
 }
 
 /* Mobile Sidebar */
@@ -248,7 +249,7 @@
   gap: var(--spacing-sm, 8px);
   font-size: 1.25rem;
   font-weight: 600;
-  color: var(--apple-blue, #007aff);
+  color: var(--apple-blue);
 }
 
 .mobile-nav {
@@ -266,19 +267,19 @@
   border-radius: var(--radius-md, 12px);
   font-size: 1rem;
   font-weight: 500;
-  color: var(--apple-text-primary, #000);
+  color: var(--apple-text-primary);
   text-decoration: none;
   transition: all var(--transition-base, 250ms);
 }
 
 .mobile-nav-item:hover {
-  background: rgba(0, 122, 255, 0.08);
-  color: var(--apple-blue, #007aff);
+  background: rgba(107, 93, 211, 0.08);
+  color: var(--apple-blue);
 }
 
 .mobile-nav-item.active {
-  background: rgba(0, 122, 255, 0.12);
-  color: var(--apple-blue, #007aff);
+  background: rgba(107, 93, 211, 0.12);
+  color: var(--primary);
   font-weight: 600;
 }
 
@@ -298,7 +299,7 @@
   padding: var(--spacing-sm, 8px) var(--spacing-md, 16px);
   font-size: 0.875rem;
   font-weight: 600;
-  color: var(--apple-text-tertiary, #8e8e93);
+  color: var(--apple-text-tertiary);
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
@@ -311,19 +312,19 @@
   padding-left: calc(var(--spacing-md, 16px) + 24px + var(--spacing-md, 16px));
   border-radius: var(--radius-md, 12px);
   font-size: 0.9375rem;
-  color: var(--apple-text-primary, #000);
+  color: var(--apple-text-primary);
   text-decoration: none;
   transition: all var(--transition-base, 250ms);
 }
 
 .mobile-nav-subitem:hover {
-  background: rgba(0, 122, 255, 0.08);
-  color: var(--apple-blue, #007aff);
+  background: rgba(107, 93, 211, 0.08);
+  color: var(--apple-blue);
 }
 
 .mobile-nav-subitem.active {
-  background: rgba(0, 122, 255, 0.12);
-  color: var(--apple-blue, #007aff);
+  background: rgba(107, 93, 211, 0.12);
+  color: var(--primary);
   font-weight: 600;
 }
 
@@ -339,7 +340,7 @@
 
 /* Footer Styles */
 .apple-footer {
-  background: rgba(255, 255, 255, 0.8);
+  background: var(--surface);
   backdrop-filter: saturate(180%) blur(20px);
   border-top: 1px solid rgba(0, 0, 0, 0.08);
   margin-top: auto;
@@ -363,18 +364,18 @@
 
 .footer-brand i {
   font-size: 1.5rem;
-  color: var(--apple-blue, #007aff);
+  color: var(--apple-blue);
 }
 
 .footer-brand span {
   font-size: 1.125rem;
   font-weight: 600;
-  color: var(--apple-text-primary, #000);
+  color: var(--apple-text-primary);
 }
 
 .footer-tagline {
   font-size: 0.875rem;
-  color: var(--apple-text-tertiary, #8e8e93);
+  color: var(--apple-text-tertiary);
   margin: 0;
 }
 
@@ -386,13 +387,13 @@
 
 .footer-link {
   font-size: 0.9375rem;
-  color: var(--apple-text-secondary, #3c3c43);
+  color: var(--apple-text-secondary);
   text-decoration: none;
   transition: color var(--transition-base, 250ms);
 }
 
 .footer-link:hover {
-  color: var(--apple-blue, #007aff);
+  color: var(--primary);
 }
 
 .footer-bottom {
@@ -405,7 +406,7 @@
 
 .footer-bottom p {
   font-size: 0.875rem;
-  color: var(--apple-text-tertiary, #8e8e93);
+  color: var(--text-disabled);
   margin: 0;
 }
 
@@ -464,7 +465,7 @@
   position: sticky;
   top: 0;
   z-index: 1000;
-  background: rgba(255, 255, 255, 0.72);
+  background: rgba(42, 39, 61, 0.6);
   backdrop-filter: saturate(180%) blur(20px);
   -webkit-backdrop-filter: saturate(180%) blur(20px);
   border-bottom: 1px solid rgba(0, 0, 0, 0.08);
@@ -473,7 +474,7 @@
 }
 
 .header-blur:hover {
-  background: rgba(255, 255, 255, 0.85);
+  background: rgba(42, 39, 61, 0.72);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
@@ -500,31 +501,27 @@
 .logo-icon {
   width: 44px;
   height: 44px;
-  background: linear-gradient(135deg, var(--apple-blue) 0%, #0068E5 100%);
-  border-radius: 12px;
+  background: var(--primary);
+  border-radius: var(--radius-md);
   display: flex;
   align-items: center;
   justify-content: center;
   color: white;
   font-size: 22px;
-  box-shadow: 0 4px 12px rgba(0, 122, 255, 0.25);
+  box-shadow: 0 4px 12px rgba(107, 93, 211, 0.18);
   transition: all var(--transition-base);
 }
 
 .logo-section:hover .logo-icon {
-  box-shadow: 0 6px 16px rgba(0, 122, 255, 0.35);
+  box-shadow: 0 6px 16px rgba(107, 93, 211, 0.28);
   transform: translateY(-1px);
 }
 
 .logo-text {
   font-size: 1.5rem;
   font-weight: var(--font-weight-bold);
-  color: var(--apple-gray-900);
+  color: var(--text-primary);
   letter-spacing: -0.03em;
-  background: linear-gradient(135deg, var(--apple-gray-900) 0%, var(--apple-gray-700) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
 }
 
 /* Main Content */
@@ -542,10 +539,8 @@
 
 /* Footer */
 .footer {
-  background: linear-gradient(180deg, transparent 0%, rgba(255, 255, 255, 0.9) 100%);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  background: var(--surface);
+  border-top: 1px solid rgba(0, 0, 0, 0.04);
   margin-top: var(--spacing-3xl);
   padding: var(--spacing-2xl) 0 var(--spacing-xl) 0;
 }
@@ -658,7 +653,7 @@
 }
 
 ::ng-deep .p-menubar .p-menuitem-link:focus {
-  box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.15) !important;
+  box-shadow: 0 0 0 3px rgba(107, 93, 211, 0.12) !important;
 }
 
 ::ng-deep .p-menubar .p-menuitem.p-highlight .p-menuitem-link,
@@ -676,7 +671,7 @@
 
 /* Submenu / Dropdown Styles */
 ::ng-deep .p-menubar .p-submenu-list {
-  background: rgba(255, 255, 255, 0.95) !important;
+  background: var(--surface) !important;
   backdrop-filter: saturate(180%) blur(20px) !important;
   -webkit-backdrop-filter: saturate(180%) blur(20px) !important;
   border: 1px solid rgba(0, 0, 0, 0.08) !important;

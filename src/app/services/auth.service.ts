@@ -32,11 +32,11 @@ export class AuthService {
   }
 
   saveToken(token: string): Observable<unknown> {
-    return this.http.post(`${this.apiUrl}/token`, { token });
+    return this.http.post(`${this.apiUrl}/github/token`, { token });
   }
 
   clearToken(): Observable<unknown> {
-    return this.http.delete(`${this.apiUrl}/token`);
+    return this.http.delete(`${this.apiUrl}/github/token`);
   }
 
   logout(): void {

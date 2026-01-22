@@ -33,8 +33,7 @@ export class LayoutComponent {
   protected readonly sidebarVisible = signal(false);
 
   protected readonly menuItems: readonly MenuItem[] = [
-    { label: 'GitHub Import', icon: 'pi pi-upload', routerLink: '/github-import' },
-    { label: 'Reports', icon: 'pi pi-chart-bar', routerLink: '/reports' }
+    { label: 'Github Analysis', icon: 'pi pi-upload', routerLink: '/github-import' }
   ];
 
   constructor() {

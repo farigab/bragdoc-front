@@ -69,25 +69,6 @@ export class ReportsComponent implements OnInit {
     return `${year}-${month}-${day}`;
   }
 
-  exportData() {
-    this.reportService.exportAll().subscribe({
-      next: (data) => {
-        const jsonStr = JSON.stringify(data, null, 2);
-        const blob = new Blob([jsonStr], { type: 'application/json' });
-        const url = window.URL.createObjectURL(blob);
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = `bragdoc-export-${new Date().getTime()}.json`;
-        link.click();
-        window.URL.revokeObjectURL(url);
-      },
-      error: (error) => {
-        this.logger.error('Error exporting data', { error });
-        this.notify.error('Erro ao exportar dados', String((error as any)?.message ?? error));
-      }
-    });
-  }
-
   generateAISummary() {
     this.loadingAI.set(true);
     const startDateStr = this.formatDate(this._startDate());

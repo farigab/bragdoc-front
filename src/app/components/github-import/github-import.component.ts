@@ -7,9 +7,8 @@ import { CardModule } from 'primeng/card';
 import { DatePickerModule } from 'primeng/datepicker';
 import { InputTextModule } from 'primeng/inputtext';
 import { ToastModule } from 'primeng/toast';
-import { GithubImportService } from '../../services/github-import.service';
-import { ReportsComponent } from '../reports/reports.component';
 import { AuthService } from '../../services/auth.service';
+import { GithubImportService } from '../../services/github-import.service';
 
 interface LoadingState {
   prs: boolean;
@@ -32,8 +31,7 @@ type ImportStep = 'token' | 'repositories' | 'dateRange' | 'complete';
     CardModule,
     InputTextModule,
     DatePickerModule,
-    ToastModule,
-    ReportsComponent
+    ToastModule
   ],
   providers: [MessageService],
   templateUrl: './github-import.component.html',
@@ -67,6 +65,7 @@ export class GithubImportComponent implements OnInit {
   readonly selectedCount = computed(() => this.selectedRepos().size);
   readonly hasDateRange = computed(() => this.startDate() !== null && this.endDate() !== null);
   readonly isImporting = computed(() => this.loading().import);
+  readonly user = this.authService.user;
 
   ngOnInit(): void {
     this.checkForSavedToken();

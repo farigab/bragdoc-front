@@ -8,6 +8,7 @@ import './polyfills';
 
 import { routes } from './app.routes';
 import { authInterceptor } from './interceptors/auth.interceptor';
+import { CustomAuraPreset } from './aura‑preset';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -25,8 +26,7 @@ export const appConfig: ApplicationConfig = {
 
     providePrimeNG({
       theme: {
-        preset: Aura,
-        options: { darkModeSelector: 'none' }
+        preset: CustomAuraPreset,
       }
     }),
 
