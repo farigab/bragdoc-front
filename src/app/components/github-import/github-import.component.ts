@@ -6,6 +6,7 @@ import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { DatePickerModule } from 'primeng/datepicker';
 import { InputTextModule } from 'primeng/inputtext';
+import { StepperModule } from 'primeng/stepper';
 import { ToastModule } from 'primeng/toast';
 import { AuthService } from '../../services/auth.service';
 import { GithubImportService } from '../../services/github-import.service';
@@ -20,8 +21,6 @@ interface LoadingState {
 
 type LoadingKey = keyof LoadingState;
 
-type ImportStep = 'token' | 'repositories' | 'dateRange' | 'complete';
-
 @Component({
   selector: 'app-github-import',
   imports: [
@@ -31,7 +30,8 @@ type ImportStep = 'token' | 'repositories' | 'dateRange' | 'complete';
     CardModule,
     InputTextModule,
     DatePickerModule,
-    ToastModule
+    ToastModule,
+    StepperModule
   ],
   providers: [MessageService],
   templateUrl: './github-import.component.html',
@@ -44,7 +44,6 @@ export class GithubImportComponent implements OnInit {
   private readonly messageService = inject(MessageService);
   private readonly authService = inject(AuthService);
 
-  readonly currentStep = signal<ImportStep>('token');
   readonly token = signal('');
   readonly result = signal<unknown>(null);
   readonly loading = signal<LoadingState>({
@@ -67,11 +66,14 @@ export class GithubImportComponent implements OnInit {
   readonly isImporting = computed(() => this.loading().import);
   readonly user = this.authService.user;
 
+  // active step for the Stepper (used by the template for two-way binding)
+  activeStep = 1;
+
   ngOnInit(): void {
     this.checkForSavedToken();
   }
 
-  saveToken(): void {
+  saveToken(activateCallback: any): void {
     const token = this.token();
     if (!token) {
       this.showError('Token is required');
@@ -81,7 +83,7 @@ export class GithubImportComponent implements OnInit {
     this.setLoading('repos', true);
     this.authService.saveToken(token).subscribe({
       next: () => {
-        this.loadRepositories();
+        this.loadRepositories(activateCallback);
       },
       error: (err: unknown) => {
         this.handleError('repos', err);
@@ -109,24 +111,18 @@ export class GithubImportComponent implements OnInit {
     });
   }
 
-  continueToDateRange(): void {
-    this.currentStep.set('dateRange');
-  }
-
-  backToRepositories(): void {
-    this.currentStep.set('repositories');
-  }
-
-  clearToken(): void {
+  clearToken(activateCallback: any): void {
     this.setLoading('repos', true);
     this.authService.clearToken().subscribe({
       next: () => {
         this.resetState();
         this.setLoading('repos', false);
+        activateCallback(1);
       },
       error: (err: unknown) => {
         this.resetState();
         this.handleError('repos', err);
+        activateCallback(1);
       }
     });
   }
@@ -157,7 +153,6 @@ export class GithubImportComponent implements OnInit {
     }).subscribe({
       next: (response: unknown) => {
         this.result.set(response);
-        this.currentStep.set('complete');
         this.setLoading('import', false);
         this.showSuccess('Import completed successfully');
       },
@@ -169,7 +164,6 @@ export class GithubImportComponent implements OnInit {
 
   startOver(): void {
     this.resetState();
-    this.currentStep.set('token');
   }
 
   private checkForSavedToken(): void {
@@ -178,7 +172,6 @@ export class GithubImportComponent implements OnInit {
       next: (repos: string[] | null) => {
         if (repos && repos.length > 0) {
           this.repositories.set(repos);
-          this.currentStep.set('repositories');
         }
         this.setLoading('repos', false);
       },
@@ -188,13 +181,16 @@ export class GithubImportComponent implements OnInit {
     });
   }
 
-  private loadRepositories(): void {
+  private loadRepositories(activateCallback?: any): void {
     this.setLoading('repos', true);
     this.service.importRepositories(this.token()).subscribe({
       next: (repos: string[] | null) => {
         this.repositories.set(repos ?? []);
-        this.currentStep.set('repositories');
         this.setLoading('repos', false);
+
+        if (activateCallback) {
+          activateCallback(2);
+        }
       },
       error: (err: unknown) => {
         this.handleError('repos', err);
