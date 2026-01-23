@@ -9,7 +9,7 @@
 }
 
 .integrated-container {
-  display: grid;
+  /* display: grid; */
   grid-template-columns: 1fr;
   gap: var(--spacing-xl);
   align-items: start;
@@ -375,7 +375,7 @@
 
 @media (min-width: 1024px) {
   .repo-grid {
-    max-height: 520px;
+    max-height: 540px;
   }
 }
 
