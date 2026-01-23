@@ -237,11 +237,13 @@ export class GithubImportComponent implements OnInit {
       next: () => {
         this.resetState();
         this.setLoading('repos', false);
+        this.maxReachedStep.set(1);
         this.activeStep = 1;
       },
       error: (err: unknown) => {
         this.resetState();
         this.handleError('repos', err);
+        this.maxReachedStep.set(1);
         this.activeStep = 1;
       }
     });
@@ -314,6 +316,7 @@ export class GithubImportComponent implements OnInit {
     this.startDate.set(null);
     this.endDate.set(null);
     this.result.set(null);
+    this.maxReachedStep.set(1);
   }
 
   private setLoading(key: LoadingKey, value: boolean): void {

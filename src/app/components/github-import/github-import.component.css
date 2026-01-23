@@ -9,7 +9,7 @@
 }
 
 .integrated-container {
-  /* display: grid; */
+  display: grid;
   grid-template-columns: 1fr;
   gap: var(--spacing-xl);
   align-items: start;
@@ -32,6 +32,64 @@
   border-radius: var(--radius-md);
   padding: var(--spacing-md);
   color: var(--text-primary);
+
+  .sidebar {
+    display: block;
+    align-self: start;
+  }
+
+  .revoke-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-md);
+    box-shadow: var(--shadow-sm);
+    max-width: 340px;
+  }
+
+  .revoke-title {
+    margin: 0 0 var(--spacing-sm) 0;
+    font-size: 1.125rem;
+    color: var(--text-primary);
+  }
+
+  .revoke-sub {
+    margin: 0 0 var(--spacing-md) 0;
+    color: var(--text-secondary);
+    font-size: 0.9375rem;
+  }
+
+  .revoke-actions p-button {
+    width: 100%;
+  }
+
+  .revoke-actions ::ng-deep button.p-button {
+    width: 100%;
+    height: 40px;
+    border-radius: 10px;
+    font-weight: 600;
+    padding: 0 16px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .revoke-actions ::ng-deep button.p-button.p-button-danger {
+    background: var(--error);
+    color: #ffffff;
+    border: none;
+  }
+
+  .revoke-actions ::ng-deep button.p-button.p-button-danger:hover {
+    filter: brightness(1.05);
+  }
+
+  .revoke-actions ::ng-deep button.p-button:focus {
+    outline: none;
+    box-shadow: 0 0 6px rgba(107, 93, 211, 0.3);
+  }
+
   border: 1px solid var(--border);
   box-shadow: var(--shadow-sm);
 }
@@ -89,7 +147,7 @@
   align-items: flex-start;
   gap: var(--spacing-xs);
   font-size: clamp(0.75rem, 2vw, 0.875rem);
-  color: var(--text-disabled);
+  color: rgba(215, 209, 248, 0.88);
   transition: transform 140ms var(--transition-ease), box-shadow 140ms var(--transition-ease), color 120ms var(--transition-ease);
   padding: var(--spacing-sm);
   text-align: left;
@@ -183,13 +241,13 @@
 }
 
 .form-row label {
-  font-weight: var(--font-weight-semibold);
+  font-weight: 700;
   color: var(--text-primary);
   font-size: clamp(0.875rem, 2vw, 0.9375rem);
 }
 
 .help-text {
-  color: var(--text-secondary);
+  color: rgba(215, 209, 248, 0.90);
   font-size: clamp(0.75rem, 1.5vw, 0.875rem);
   line-height: 1.5;
 }
@@ -224,13 +282,16 @@
   resize: vertical;
   padding: clamp(12px, 2vw, 16px);
   border-radius: var(--radius-md);
-  background: var(--surface);
+  /* match token input: slightly darker surface for contrast */
+  background: rgba(32, 28, 46, 0.95);
   color: var(--text-primary);
   border: 1px solid var(--border);
   font-size: clamp(0.875rem, 2vw, 1rem);
   line-height: 1.6;
   transition: box-shadow 150ms ease, border-color 150ms ease, transform 120ms ease;
   box-shadow: none;
+  font-weight: 500;
+  /* slight increase to match token input */
 }
 
 .ai-prompt .p-inputtextarea:focus,
@@ -243,7 +304,39 @@
 
 .ai-prompt .p-inputtextarea::placeholder,
 .ai-prompt textarea::placeholder {
-  color: var(--text-disabled);
+  color: rgba(224, 218, 255, 0.38);
+}
+
+#token-input,
+.form-row input.p-inputtext,
+.form-row input[type="password"] {
+  height: 40px;
+  padding: clamp(10px, 2vw, 14px);
+  border-radius: 8px;
+  background: rgba(32, 28, 46, 0.95);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+  font-size: clamp(0.875rem, 2vw, 1rem);
+  line-height: 1.6;
+  box-shadow: none;
+  transition: box-shadow 150ms ease, border-color 150ms ease, transform 120ms ease;
+  font-weight: 500;
+  /* slight increase */
+}
+
+.form-row input::placeholder,
+#token-input::placeholder {
+  color: rgba(224, 218, 255, 0.38);
+}
+
+.form-row input:focus,
+#token-input:focus,
+.form-row input.p-inputtext:focus,
+.form-row input[type="password"]:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 6px rgba(107, 93, 211, 0.28);
+  transform: translateY(-1px);
 }
 
 .ai-examples {
@@ -251,7 +344,7 @@
   border: 1px solid var(--border);
   padding: var(--spacing-sm) var(--spacing-md);
   border-radius: var(--radius-md);
-  color: var(--text-secondary);
+  color: rgba(215, 209, 248, 0.90);
   font-size: clamp(0.8125rem, 1.5vw, 0.9375rem);
 }
 

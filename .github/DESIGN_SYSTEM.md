@@ -28,13 +28,13 @@
 
 ### Texto
 - --text-primary: #E0DAFF   <!-- Roxo claro -->
-- --text-secondary: #BFB3F2 <!-- Roxo médio -->
-- --text-disabled: #7F6FD1  <!-- Roxo apagado -->
+- --text-secondary: #D7D1F8 <!-- Roxo médio (clareado para melhor contraste) -->
+- --text-disabled: #9B8FE2  <!-- Roxo apagado (ajustado) -->
 
 ### Estados
 - --success: #9BFFA1        <!-- Verde pastel -->
 - --warning: #FFD37F        <!-- Amarelo suave -->
-- --error: #FF9BFF          <!-- Rosa/roxo forte -->
+- --error: #FF6B6B          <!-- Vermelho/aviso menos saturado (melhor em dark) -->
 
 **Regras**
 - Roxo é base para tudo, inclusive estados.

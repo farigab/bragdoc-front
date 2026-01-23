@@ -10,13 +10,13 @@
 
   /* Text Colors */
   --text-primary: #E0DAFF;
-  --text-secondary: #BFB3F2;
-  --text-disabled: #7F6FD1;
+  --text-secondary: #D7D1F8;
+  --text-disabled: #9B8FE2;
 
   /* State Colors */
   --success: #9BFFA1;
   --warning: #FFD37F;
-  --error: #FF9BFF;
+  --error: #FF6B6B;
 
   /* Typography Scale */
   --font-family: system-ui, -apple-system, BlinkMacSystemFont;

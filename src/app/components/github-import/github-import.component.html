@@ -119,7 +119,7 @@
               </div>
 
               <div class="step-actions">
-                <p-button label="Back" severity="secondary" [outlined]="true" (onClick)="clearToken()" />
+                <p-button label="Back" severity="secondary" [outlined]="true" (onClick)="activateCallback(1)" />
                 <p-button label="Continue" (onClick)="activateCallback(3)" />
               </div>
             </div>
@@ -223,4 +223,15 @@
       </div>
     </p-dialog>
   </div>
+
+  <aside class="sidebar" role="complementary">
+    <div class="revoke-card">
+      <h3 class="revoke-title">Account</h3>
+      <p class="revoke-sub">Manage your GitHub token</p>
+      <div class="revoke-actions">
+        <p-button label="Revoke Token" icon="pi pi-power-off" (onClick)="clearToken()"
+          [loading]="loading().repos" [disabled]="loading().repos"></p-button>
+      </div>
+    </div>
+  </aside>
 </div>
