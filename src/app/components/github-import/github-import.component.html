@@ -156,12 +156,12 @@
               <p class="subtitle">Customize the prompt for automated analysis</p>
 
               <div class="form-row ai-prompt">
-                <label for="ai-prompt">Prompt para IA</label>
+                <label for="ai-prompt">AI Prompt</label>
                 <textarea pInputTextarea id="ai-prompt" rows="6" [ngModel]="customPrompt()"
-                  (ngModelChange)="customPrompt.set($event)" placeholder="Escreva o prompt para a IA..."
+                  (ngModelChange)="customPrompt.set($event)" placeholder="Write the prompt for the AI..."
                   [attr.maxlength]="maxPromptLength"
                   aria-describedby="ai-prompt-help ai-prompt-examples ai-prompt-count"
-                  aria-label="Prompt para IA"></textarea>
+                  aria-label="AI Prompt"></textarea>
 
                 <div id="ai-prompt-examples" class="ai-examples" aria-hidden="false">
                   <strong>Examples</strong>
