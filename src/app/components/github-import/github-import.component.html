@@ -182,7 +182,7 @@
 
               <div class="step-actions">
                 <p-button label="Back" severity="secondary" [outlined]="true" (onClick)="activateCallback(3)" />
-                <p-button label="AI Analysis" icon="pi pi-robot" (onClick)="analyzeAI()"
+                <p-button label="AI Analysis" icon="pi pi-sparkles" (onClick)="analyzeAI()"
                   [disabled]="!customPrompt() || !selectedPreset()" />
               </div>
             </div>
@@ -192,8 +192,8 @@
       </p-step-panels>
     </p-stepper>
 
-    <p-dialog [visible]="showAIModal()" [modal]="true" [style]="{width: '60vw'}"  [draggable]="false"
-      [resizable]="false" styleClass="ai-modal" (onHide)="showAIModal.set(false)">
+    <p-dialog [visible]="showAIModal()" [modal]="true" [style]="{width: '60vw'}" [draggable]="false" [resizable]="false"
+      styleClass="ai-modal" (onHide)="showAIModal.set(false)">
       <ng-template pTemplate="header">
         <div class="modal-header-content">
           <div class="ai-icon-wrapper-modal">
