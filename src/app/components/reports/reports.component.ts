@@ -74,7 +74,7 @@ export class ReportsComponent implements OnInit {
     const startDateStr = this.formatDate(this._startDate());
     const endDateStr = this.formatDate(this._endDate());
 
-    this.reportService.getAISummary('executive', undefined, startDateStr, endDateStr).subscribe({
+    this.reportService.getAISummary('TECHNICAL', undefined, startDateStr, endDateStr).subscribe({
       next: (data) => {
         this.aiSummary.set(data);
         this.loadingAI.set(false);

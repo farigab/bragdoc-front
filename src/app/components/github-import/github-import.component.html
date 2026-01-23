@@ -5,7 +5,7 @@
   <div class="import-container">
     <div class="page-header">
       <div class="page-header-content">
-        <h1 class="page-title">Good to see you again{{ user() ? ', ' + (user()?.name || user()?.login) : '' }}!</h1>
+        <h1 class="page-title">Good to see you again{{ displayName() ? ', ' + displayName() : '' }}!</h1>
       </div>
     </div>
 
@@ -182,7 +182,8 @@
 
               <div class="step-actions">
                 <p-button label="Back" severity="secondary" [outlined]="true" (onClick)="activateCallback(3)" />
-                <p-button label="AI Analysis" icon="pi pi-robot" (onClick)="analyzeAI()" [disabled]="!customPrompt()" />
+                <p-button label="AI Analysis" icon="pi pi-robot" (onClick)="analyzeAI()"
+                  [disabled]="!customPrompt() || !selectedPreset()" />
               </div>
             </div>
           </ng-template>
@@ -190,5 +191,32 @@
 
       </p-step-panels>
     </p-stepper>
+
+    <p-dialog [visible]="showAIModal()" [modal]="true" [style]="{width: '60vw'}"  [draggable]="false"
+      [resizable]="false" styleClass="ai-modal" (onHide)="showAIModal.set(false)">
+      <ng-template pTemplate="header">
+        <div class="modal-header-content">
+          <div class="ai-icon-wrapper-modal">
+            <i class="pi pi-sparkles"></i>
+          </div>
+          <div>
+            <h2 class="modal-title">Análise Gerada por IA</h2>
+            <p class="modal-subtitle">Insights automáticos sobre seus achievements</p>
+          </div>
+        </div>
+      </ng-template>
+
+      <div class="modal-ai-content">
+        @if (loading().import) {
+        <div class="dialog-center">
+          <p-progressSpinner></p-progressSpinner>
+        </div>
+        } @else {
+        @if (aiSummary()) {
+        <div class="ai-text" [innerHTML]="aiSummary()!.aiGeneratedReport | markdown"></div>
+        }
+        }
+      </div>
+    </p-dialog>
   </div>
 </div>

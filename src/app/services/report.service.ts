@@ -4,6 +4,7 @@ import { Observable, tap } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { Achievement } from '../models/achievement.model';
 import {
+  AICustomSummaryRequest,
   AIGitHubAnalysis,
   AISummaryReport,
   TimelineReport
@@ -83,6 +84,25 @@ export class ReportService {
         next: () => this.loadingSignal.set(false),
         error: (err) => {
           this.errorSignal.set(err.message);
+          this.loadingSignal.set(false);
+        }
+      })
+    );
+  }
+
+  getAICustomSummary(request: AICustomSummaryRequest): Observable<AISummaryReport> {
+    this.loadingSignal.set(true);
+    this.errorSignal.set(null);
+
+    return this.http.post<AISummaryReport>(
+      `${this.apiUrl}/ai-summary/custom`,
+      request
+    ).pipe(
+      tap({
+        next: () => this.loadingSignal.set(false),
+        error: (err: unknown) => {
+          const message = err instanceof Error ? err.message : 'An unknown error occurred';
+          this.errorSignal.set(message);
           this.loadingSignal.set(false);
         }
       })

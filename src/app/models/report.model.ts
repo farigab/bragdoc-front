@@ -21,3 +21,12 @@ export interface AIGitHubAnalysis {
   readonly aiAnalysis: string;
   readonly statistics: Record<string, number>;
 }
+
+export interface AICustomSummaryRequest {
+  startDate: string;
+  endDate: string;
+  userPrompt?: string;
+  repository?: string;
+  reportType?: string;
+  category?: string;
+}

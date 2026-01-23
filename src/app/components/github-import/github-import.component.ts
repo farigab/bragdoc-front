@@ -4,12 +4,18 @@ import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { DatePickerModule } from 'primeng/datepicker';
+import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { SelectModule } from 'primeng/select';
 import { StepperModule } from 'primeng/stepper';
 import { ToastModule } from 'primeng/toast';
+import { AICustomSummaryRequest, AISummaryReport } from '../../models/report.model';
+import { MarkdownPipe } from '../../pipes/markdown.pipe';
 import { AuthService } from '../../services/auth.service';
 import { GithubImportService } from '../../services/github-import.service';
+import { ReportService } from '../../services/report.service';
+import { finalize } from 'rxjs';
 
 interface LoadingState {
   prs: boolean;
@@ -50,7 +56,10 @@ type LoadingKey = keyof LoadingState;
     DatePickerModule,
     ToastModule,
     StepperModule,
-    SelectModule
+    SelectModule,
+    DialogModule,
+    ProgressSpinnerModule,
+    MarkdownPipe
   ],
   providers: [MessageService],
   templateUrl: './github-import.component.html',
@@ -62,6 +71,10 @@ export class GithubImportComponent implements OnInit {
   private readonly service = inject(GithubImportService);
   private readonly messageService = inject(MessageService);
   private readonly authService = inject(AuthService);
+  private readonly reportService = inject(ReportService);
+
+  readonly aiSummary = signal<AISummaryReport | null>(null);
+  readonly showAIModal = signal(false);
 
   readonly token = signal('');
   readonly result = signal<unknown>(null);
@@ -85,6 +98,12 @@ export class GithubImportComponent implements OnInit {
   readonly isImporting = computed(() => this.loading().import);
   readonly user = this.authService.user;
 
+  readonly displayName = computed(() => {
+    const u = this.user();
+    const name = u?.name ?? u?.login ?? '';
+    return name ? name.split(' ')[0] : '';
+  });
+
   readonly customPrompt = signal('');
   readonly maxPromptLength = 1000;
   readonly promptLength = computed(() => this.customPrompt().length);
@@ -103,17 +122,37 @@ export class GithubImportComponent implements OnInit {
     this.checkForSavedToken();
   }
 
+  private readonly MAX_PROMPT_LENGTH = 1000;
+
   analyzeAI(): void {
     const prompt = this.customPrompt().trim();
-    if (!prompt || prompt.length === 0) {
+
+    if (!prompt) {
       this.showError('Please enter a prompt for AI analysis');
       return;
     }
 
-    if (prompt.length > this.maxPromptLength) {
-      this.showError(`Prompt exceeds maximum length of ${this.maxPromptLength} characters`);
+    if (prompt.length > this.MAX_PROMPT_LENGTH) {
+      this.showError(`Prompt exceeds maximum length of ${this.MAX_PROMPT_LENGTH} characters`);
       return;
     }
+
+    const preset = this.selectedPreset();
+    if (!preset) {
+      this.showError('Please select a time period preset before running AI analysis');
+      return;
+    }
+
+    const range = this.presetMap[preset]();
+    const selectedRepos = Array.from(this.selectedRepos());
+
+    // ✅ Build request object
+    const request: AICustomSummaryRequest = {
+      startDate: this.formatDate(range.start),
+      endDate: this.formatDate(range.end),
+      userPrompt: prompt,
+      repository: selectedRepos.length === 1 ? selectedRepos[0] : undefined
+    };
 
     this.messageService.add({
       severity: 'info',
@@ -121,8 +160,24 @@ export class GithubImportComponent implements OnInit {
       detail: 'Analyzing...'
     });
 
-    this.result.set({ aiPrompt: prompt, analysis: 'Simulated AI analysis result' });
-    this.showSuccess('AI analysis complete');
+    this.setLoading('import', true);
+
+    this.reportService.getAICustomSummary(request).pipe(
+      finalize(() => this.setLoading('import', false))
+    ).subscribe({
+      next: (report: AISummaryReport) => {
+        this.aiSummary.set(report);
+        this.showAIModal.set(true);
+        this.showSuccess('AI analysis complete');
+      },
+      error: (err: unknown) => {
+        this.handleError('import', err);
+      }
+    });
+  }
+
+  private formatDate(date: Date): string {
+    return date.toISOString().split('T')[0]!;
   }
 
   saveToken(): void {
@@ -276,7 +331,7 @@ export class GithubImportComponent implements OnInit {
     });
   }
 
-  selectedPreset = signal<string | null>(null);
+  selectedPreset = signal<Preset | null>(null);
   presetOptions: PresetOption[] = [
     { label: 'Today', value: 'today' },
     { label: 'Yesterday', value: 'yesterday' },
