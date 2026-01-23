@@ -20,10 +20,12 @@
 }
 
 .import-container {
-  margin: 0;
-  padding: var(--spacing-lg) var(--spacing-md);
-  height: 100%;
-  overflow: auto;
+  background: var(--surface);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-md);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
 }
 
 /* ==========================================
@@ -226,12 +228,54 @@
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: var(--spacing-md);
   margin: var(--spacing-xl) 0;
-  max-height: 440px;
   overflow-y: auto;
   padding: var(--spacing-md);
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
   background: var(--bg);
+}
+
+/* Preset buttons */
+.preset-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+  margin: var(--spacing-md) 0;
+}
+
+.preset-button {
+  border-radius: 8px;
+  padding: 8px 14px;
+  background: var(--surface);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+  cursor: pointer;
+  font-weight: var(--font-weight-medium);
+}
+
+.preset-button.active {
+  background: var(--primary);
+  color: #fff;
+  border-color: var(--primary);
+}
+
+.last-n-row {
+  display: flex;
+  gap: var(--spacing-sm);
+  align-items: center;
+  margin-top: var(--spacing-md);
+}
+
+.last-n-input {
+  width: 80px;
+}
+
+.last-unit-select {
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
 }
 
 .repo-grid::-webkit-scrollbar {

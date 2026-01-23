@@ -1,4 +1,3 @@
-import { JsonPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, inject, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MessageService } from 'primeng/api';
@@ -10,6 +9,7 @@ import { StepperModule } from 'primeng/stepper';
 import { ToastModule } from 'primeng/toast';
 import { AuthService } from '../../services/auth.service';
 import { GithubImportService } from '../../services/github-import.service';
+import { SelectChangeEvent, SelectModule } from 'primeng/select';
 
 interface LoadingState {
   prs: boolean;
@@ -25,13 +25,13 @@ type LoadingKey = keyof LoadingState;
   selector: 'app-github-import',
   imports: [
     FormsModule,
-    JsonPipe,
     ButtonModule,
     CardModule,
     InputTextModule,
     DatePickerModule,
     ToastModule,
-    StepperModule
+    StepperModule,
+    SelectModule
   ],
   providers: [MessageService],
   templateUrl: './github-import.component.html',
@@ -66,6 +66,8 @@ export class GithubImportComponent implements OnInit {
   readonly isImporting = computed(() => this.loading().import);
   readonly user = this.authService.user;
 
+  readonly customPrompt = signal('');
+
   private signalActiveStep = signal<number>(1);
 
   get activeStep(): number {
@@ -78,6 +80,23 @@ export class GithubImportComponent implements OnInit {
 
   ngOnInit(): void {
     this.checkForSavedToken();
+  }
+
+  analyzeAI(): void {
+    const prompt = this.customPrompt();
+    if (!prompt || prompt.trim().length === 0) {
+      this.showError('Please enter a prompt for AI analysis');
+      return;
+    }
+
+    this.messageService.add({
+      severity: 'info',
+      summary: 'AI Analysis',
+      detail: 'Analyzing...'
+    });
+
+    this.result.set({ aiPrompt: prompt, analysis: 'Simulated AI analysis result' });
+    this.showSuccess('AI analysis complete');
   }
 
   saveToken(): void {
@@ -230,4 +249,30 @@ export class GithubImportComponent implements OnInit {
       life: 5000
     });
   }
+
+  presetOptions: PresetOption[] = [
+    { label: 'Today', value: 'today' },
+    { label: 'Yesterday', value: 'yesterday' },
+    { label: 'This Week', value: 'thisWeek' },
+    { label: 'Last N Days', value: 'custom' },
+    { label: 'Last N Weeks', value: 'custom' },
+    { label: 'Last N Months', value: 'custom' },
+  ];
+
+  selectedPreset = signal<string | null>(null);
+  customStart = signal<Date | null>(null);
+  customEnd = signal<Date | null>(null);
+
+  onPresetChange(evento: SelectChangeEvent) {
+    const value = (evento.value as HTMLSelectElement).value;
+    this.selectedPreset.set(value);
+    if (value !== 'custom') {
+      this.customStart.set(null);
+      this.customEnd.set(null);
+    }
+  }
+}
+interface PresetOption {
+  label: string;
+  value: string;
 }

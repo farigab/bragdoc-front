@@ -17,6 +17,7 @@
           <ng-template #content let-value="value">
             <span class="step-circle" [class.active]="value <= activeStep">
               <i class="pi pi-github"></i>
+              Connect
             </span>
           </ng-template>
         </p-step>
@@ -25,6 +26,7 @@
           <ng-template #content let-value="value">
             <span class="step-circle" [class.active]="value <= activeStep">
               <i class="pi pi-folder"></i>
+              Repositories
             </span>
           </ng-template>
         </p-step>
@@ -33,6 +35,16 @@
           <ng-template #content let-value="value">
             <span class="step-circle" [class.active]="value <= activeStep">
               <i class="pi pi-calendar"></i>
+              Time Period
+            </span>
+          </ng-template>
+        </p-step>
+
+        <p-step [value]="4" class="step-header">
+          <ng-template #content let-value="value">
+            <span class="step-circle" [class.active]="value <= activeStep">
+              <i class="pi pi-sparkles"></i>
+              AI Analysis
             </span>
           </ng-template>
         </p-step>
@@ -109,85 +121,60 @@
           </ng-template>
         </p-step-panel>
 
-        <!-- Step 3: Date Range Selection -->
         <p-step-panel [value]="3">
           <ng-template #content let-activateCallback="activateCallback">
             <div class="step-content">
-              <h2 class="section-title">Select Date Range</h2>
-              <p class="subtitle">Choose the time period for importing data</p>
+              <h2 class="section-title">Import Date Range</h2>
+              <p class="subtitle">Select a date range for importing data</p>
 
-              <div class="date-range-container">
-                <div class="form-row">
-                  <label for="start-date">Start Date</label>
-                  <p-datepicker inputId="start-date" [ngModel]="startDate()" (ngModelChange)="startDate.set($event)"
-                    dateFormat="yy-mm-dd" [showIcon]="true" placeholder="Select start date" appendTo="body"
-                    [maxDate]="endDate() ?? maxDate" [iconDisplay]="'input'" />
+              <div class="form-row">
+                <label for="date-range">Date Range</label>
+                <p-select id="date-range" [options]="presetOptions" [ngModel]="selectedPreset()" optionLabel="label"
+                  placeholder="Select a preset" (ngModelChange)="onPresetChange($event)"
+                  aria-describedby="date-range-help">
+                </p-select>
+
+                @if (selectedPreset() === 'custom') {
+                <div class="custom-date-range">
+                  <p-datepicker [(ngModel)]="customStart" [showIcon]="true" placeholder="Start date"></p-datepicker>
+                  <p-datepicker [(ngModel)]="customEnd" [showIcon]="true" placeholder="End date"></p-datepicker>
                 </div>
+                }
 
-                <div class="form-row">
-                  <label for="end-date">End Date</label>
-                  <p-datepicker inputId="end-date" [ngModel]="endDate()" (ngModelChange)="endDate.set($event)"
-                    dateFormat="yy-mm-dd" [showIcon]="true" placeholder="Select end date" appendTo="body"
-                    [minDate]="startDate()" [maxDate]="maxDate" [iconDisplay]="'input'" />
-                </div>
-              </div>
-
-              <div class="summary-section">
-                <h3>Import Summary</h3>
-                <ul class="summary-list">
-                  <li>
-                    <strong>Repositories:</strong>
-                    @if (selectedCount() > 0) {
-                    {{ selectedCount() }} selected
-                    } @else {
-                    All ({{ repositories().length }})
-                    }
-                  </li>
-                  @if (hasDateRange()) {
-                  <li>
-                    <strong>Date Range:</strong>
-                    {{ startDate()!.toLocaleDateString() }} - {{ endDate()!.toLocaleDateString() }}
-                  </li>
-                  }
-                </ul>
+                <small id="date-range-help" class="help-text">
+                  Choose a preset or select a custom range
+                </small>
               </div>
 
               <div class="step-actions">
-                <p-button label="Back" severity="secondary" [outlined]="true" (onClick)="activateCallback(2)"
-                  [disabled]="isImporting()" />
-                <div class="footer-actions">
-                  <div class="timer">
-                    @if (isImporting()) {
-                    Importing data...
-                    } @else {
-                    ~30 seconds to generate
-                    }
-                  </div>
-                  <p-button label="Start Import" icon="pi pi-download" (onClick)="startImport()"
-                    [disabled]="!hasDateRange()" [loading]="isImporting()" />
-                </div>
+                <p-button label="Back" severity="secondary" [outlined]="true" (onClick)="activateCallback(2)" />
+                <p-button label="Continue" (onClick)="activateCallback(4)" />
+              </div>
+            </div>
+          </ng-template>
+        </p-step-panel>
+
+
+        <!-- Step 4: AI Prompt & Analysis -->
+        <p-step-panel [value]="4">
+          <ng-template #content let-activateCallback="activateCallback">
+            <div class="step-content">
+              <h2 class="section-title">Análise com IA</h2>
+              <p class="subtitle">Personalize o prompt para a análise automática</p>
+
+              <div class="form-row">
+                <label for="ai-prompt">Prompt para IA</label>
+                <textarea pInputTextarea id="ai-prompt" rows="6" [ngModel]="customPrompt()"
+                  (ngModelChange)="customPrompt.set($event)" placeholder="Escreva o prompt para a IA..."
+                  aria-describedby="ai-prompt-help"></textarea>
+                <small id="ai-prompt-help" class="help-text">Use instruções claras e exemplos para melhores
+                  resultados</small>
               </div>
 
-              <!-- Success Result -->
-              @if (result()) {
-              <div class="success-container">
-                <i class="pi pi-check-circle success-icon"></i>
-                <h2 class="section-title">Import Complete!</h2>
-                <p class="subtitle">
-                  Your GitHub data has been successfully imported
-                </p>
-
-                <div class="result-details">
-                  <h3>Import Details</h3>
-                  <pre>{{ result() | json }}</pre>
-                </div>
-
-                <div class="step-actions">
-                  <p-button label="Start Over" severity="secondary" [outlined]="true" (onClick)="startOver()" />
-                  <p-button label="View Dashboard" icon="pi pi-chart-line" />
-                </div>
+              <div class="step-actions">
+                <p-button label="Back" severity="secondary" [outlined]="true" (onClick)="activateCallback(3)" />
+                <p-button label="Análise IA" icon="pi pi-robot" (onClick)="analyzeAI()" [disabled]="!customPrompt()" />
               </div>
-              }
             </div>
           </ng-template>
         </p-step-panel>
