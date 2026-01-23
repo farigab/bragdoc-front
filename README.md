@@ -92,31 +92,92 @@ export const environment = {
 
 ## 📄 Licença
 
-Projeto privado (adicione um arquivo LICENSE se quiser publicar).
+Projeto privado
 
-## 🎨 Design System
+## 🎨 Design System — Dark Mode (Roxo)
 
-### Apple-Inspired Colors
+Seguem as diretrizes oficiais do Design System do projeto para o modo escuro. Esta paleta e regras devem ser seguidas rigidamente para garantir consistência visual e acessibilidade.
 
-- **Primary Blue**: `#007aff` - Main action color
-- **Success Green**: `#34c759` - Positive actions
-- **Warning Orange**: `#ff9500` - Warning states
-- **Danger Red**: `#ff3b30` - Error states
-- **Gray Scale**: Multiple shades for text and backgrounds
+### Tokens de cores (core)
 
-### Typography
+- `--primary`: #6B5DD3        — Roxo principal
+- `--primary-hover`: #7B69E0  — Hover roxo
+- `--bg`: #1C1B29             — Fundo escuro
+- `--surface`: #2A273D        — Superfícies / cards
+- `--border`: #443F5E         — Bordas suaves
 
-- **Font Family**: SF Pro Display/Text (system fallbacks)
-- **Font Weights**: 300-800
-- **Letter Spacing**: -0.02em for headings
-- **Line Height**: 1.2 for headings, 1.5 for body
+### Texto
 
-### Component Styling
+- `--text-primary`: #E0DAFF   — Texto principal (roxo claro)
+- `--text-secondary`: #BFB3F2 — Texto secundário
+- `--text-disabled`: #7F6FD1  — Texto desabilitado
 
-- **Border Radius**: 8px-20px (rounded corners)
-- **Shadows**: Subtle layered shadows
-- **Transitions**: Smooth 150-350ms animations
-- **Glassmorphism**: Backdrop blur effects on headers
+### Estados
+
+- `--success`: #9BFFA1
+- `--warning`: #FFD37F
+- `--error`: #FF9BFF
+
+> Regra: roxo é a base para a identidade visual; não usar cores fora da paleta.
+
+### Tipografia
+
+- Família: `system-ui, -apple-system, BlinkMacSystemFont`
+- Escala recomendada:
+  - Title: 32px / 600
+  - Section: 24px / 600
+  - Subtitle: 20px / 500
+  - Body: 16px / 400
+  - Caption: 13px / 400
+
+Line-height mínimo: 1.5
+
+### Espaçamento
+
+- Base: 8px — usar múltiplos de 8 para margens e gaps
+- Layout: 24–32px
+- Padding de cards: 24px
+
+### PrimeNG — Overrides obrigatórios
+
+- Botões (`p-button`):
+  - `border-radius: 10px`, altura 40px
+  - Primary: `background: var(--primary)`, `color: #fff`
+  - Secondary: `background: var(--surface)`, `border: 1px solid var(--border)`, `color: var(--text-primary)`
+  - Hover: `background: var(--primary-hover)`
+
+- Inputs (`p-inputtext`, `p-dropdown`, `p-calendar`):
+  - Altura 40px, `border: 1px solid var(--border)`, `border-radius: 8px`, `background: var(--surface)`, `color: var(--text-primary)`
+  - Focus: `border-color: var(--primary)`, `box-shadow: 0 0 6px rgba(107,93,211,0.3)`
+
+- Cards (`p-card`):
+  - `border-radius: 12px`, `padding: 24px`, `background: var(--surface)`, `box-shadow: 0 4px 12px rgba(107,93,211,0.3)`
+
+- Tables (`p-table`):
+  - Header transparente, hover suave: `rgba(107,93,211,0.05)`
+
+### UX Rules
+
+- Sempre mostrar estado vazio
+- Feedback visual em ações (sucesso/erro)
+- Hover e focus visíveis
+- Animações curtas (<200ms)
+- Evitar loaders agressivos
+- Garantir contraste mínimo WCAG 4.5:1
+
+### Proibições
+
+- ❌ Cores fora da paleta roxa
+- ❌ Gradientes exagerados
+- ❌ Ícones coloridos decorativos
+- ❌ Componentes densos ou ruidosos
+
+### Regra da fonte (autoridade)
+
+Este arquivo define o design completo para o Dark Mode Roxo. Não criar variações fora dessa paleta; seguir tokens, espaçamento e overrides PrimeNG.
+
+---
+
 
 ## 📦 Key Components
 
