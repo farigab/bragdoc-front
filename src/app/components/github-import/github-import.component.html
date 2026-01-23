@@ -5,7 +5,7 @@
   <div class="import-container">
     <div class="page-header">
       <div class="page-header-content">
-        <h1 class="page-title">Good to see you again!</h1>
+        <h1 class="page-title">Good to see you again{{ user() ? ', ' + (user()?.name || user()?.login) : '' }}!</h1>
       </div>
     </div>
 
