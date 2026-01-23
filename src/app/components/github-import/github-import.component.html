@@ -10,39 +10,43 @@
     </div>
 
     <!-- PrimeNG Stepper -->
-    <p-stepper [(value)]="activeStep" [linear]="true">
+    <p-stepper [(value)]="activeStep" [linear]="false">
 
       <p-step-list>
-        <p-step [value]="1" class="step-header">
+        <p-step [value]="1" class="step-header" (click)="canGoTo(1) && goToStep(1)">
           <ng-template #content let-value="value">
-            <span class="step-circle" [class.active]="value <= activeStep">
+            <span class="step-circle" [class.active]="value <= activeStep" (click)="canGoTo(value) && goToStep(value)"
+              (keydown.enter)="canGoTo(value) && goToStep(value)" tabindex="0" role="button" style="cursor: pointer">
               <i class="pi pi-github"></i>
               Connect
             </span>
           </ng-template>
         </p-step>
 
-        <p-step [value]="2" class="step-header">
+        <p-step [value]="2" class="step-header" (click)="canGoTo(2) && goToStep(2)">
           <ng-template #content let-value="value">
-            <span class="step-circle" [class.active]="value <= activeStep">
+            <span class="step-circle" [class.active]="value <= activeStep" (click)="canGoTo(value) && goToStep(value)"
+              (keydown.enter)="canGoTo(value) && goToStep(value)" tabindex="0" role="button" style="cursor: pointer">
               <i class="pi pi-folder"></i>
               Repositories
             </span>
           </ng-template>
         </p-step>
 
-        <p-step [value]="3" class="step-header">
+        <p-step [value]="3" class="step-header" (click)="canGoTo(3) && goToStep(3)">
           <ng-template #content let-value="value">
-            <span class="step-circle" [class.active]="value <= activeStep">
+            <span class="step-circle" [class.active]="value <= activeStep" (click)="canGoTo(value) && goToStep(value)"
+              (keydown.enter)="canGoTo(value) && goToStep(value)" tabindex="0" role="button" style="cursor: pointer">
               <i class="pi pi-calendar"></i>
               Time Period
             </span>
           </ng-template>
         </p-step>
 
-        <p-step [value]="4" class="step-header">
+        <p-step [value]="4" class="step-header" (click)="canGoTo(4) && goToStep(4)">
           <ng-template #content let-value="value">
-            <span class="step-circle" [class.active]="value <= activeStep">
+            <span class="step-circle" [class.active]="value <= activeStep" (click)="canGoTo(value) && goToStep(value)"
+              (keydown.enter)="canGoTo(value) && goToStep(value)" tabindex="0" role="button" style="cursor: pointer">
               <i class="pi pi-sparkles"></i>
               AI Analysis
             </span>
@@ -125,7 +129,7 @@
         <p-step-panel [value]="3">
           <ng-template #content let-activateCallback="activateCallback">
             <div class="step-content">
-              <h2 class="section-title">What time period?</h2>
+              <h2 class="section-title">Select a time period</h2>
               <p class="subtitle">Choose the time range for your report</p>
 
               <div class="preset-buttons" role="list">

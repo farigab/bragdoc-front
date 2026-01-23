@@ -10,12 +10,12 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { SelectModule } from 'primeng/select';
 import { StepperModule } from 'primeng/stepper';
 import { ToastModule } from 'primeng/toast';
+import { finalize } from 'rxjs';
 import { AICustomSummaryRequest, AISummaryReport } from '../../models/report.model';
 import { MarkdownPipe } from '../../pipes/markdown.pipe';
 import { AuthService } from '../../services/auth.service';
 import { GithubImportService } from '../../services/github-import.service';
 import { ReportService } from '../../services/report.service';
-import { finalize } from 'rxjs';
 
 interface LoadingState {
   prs: boolean;
@@ -109,6 +109,7 @@ export class GithubImportComponent implements OnInit {
   readonly promptLength = computed(() => this.customPrompt().length);
 
   private signalActiveStep = signal<number>(1);
+  readonly maxReachedStep = signal<number>(1);
 
   get activeStep(): number {
     return this.signalActiveStep();
@@ -116,10 +117,23 @@ export class GithubImportComponent implements OnInit {
 
   set activeStep(value: number) {
     this.signalActiveStep.set(value);
+    this.maxReachedStep.update(m => (value > m ? value : m));
   }
 
   ngOnInit(): void {
     this.checkForSavedToken();
+  }
+
+  goToStep(step: number): void {
+    if (!this.canGoTo(step)) {
+      return;
+    }
+
+    this.activeStep = step;
+  }
+
+  canGoTo(step: number): boolean {
+    return step <= this.maxReachedStep();
   }
 
   private readonly MAX_PROMPT_LENGTH = 1000;
