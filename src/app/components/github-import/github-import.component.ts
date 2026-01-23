@@ -5,11 +5,11 @@ import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { DatePickerModule } from 'primeng/datepicker';
 import { InputTextModule } from 'primeng/inputtext';
+import { SelectModule } from 'primeng/select';
 import { StepperModule } from 'primeng/stepper';
 import { ToastModule } from 'primeng/toast';
 import { AuthService } from '../../services/auth.service';
 import { GithubImportService } from '../../services/github-import.service';
-import { SelectChangeEvent, SelectModule } from 'primeng/select';
 
 interface LoadingState {
   prs: boolean;
@@ -18,6 +18,25 @@ interface LoadingState {
   repos: boolean;
   import: boolean;
 }
+
+interface PresetOption {
+  label: string;
+  value: Preset;
+}
+
+type Preset =
+  | 'today'
+  | 'yesterday'
+  | 'thisWeek'
+  | 'lastWeek'
+  | 'last2Weeks'
+  | 'thisMonth'
+  | 'lastMonth'
+  | 'last3Months'
+  | 'last6Months'
+  | 'thisYear'
+  | 'lastYear';
+
 
 type LoadingKey = keyof LoadingState;
 
@@ -250,29 +269,118 @@ export class GithubImportComponent implements OnInit {
     });
   }
 
+  selectedPreset = signal<string | null>(null);
   presetOptions: PresetOption[] = [
     { label: 'Today', value: 'today' },
     { label: 'Yesterday', value: 'yesterday' },
     { label: 'This Week', value: 'thisWeek' },
-    { label: 'Last N Days', value: 'custom' },
-    { label: 'Last N Weeks', value: 'custom' },
-    { label: 'Last N Months', value: 'custom' },
+    { label: 'Last Week', value: 'lastWeek' },
+    { label: 'Last 2 Weeks', value: 'last2Weeks' },
+    { label: 'This Month', value: 'thisMonth' },
+    { label: 'Last Month', value: 'lastMonth' },
+    { label: 'Last 3 Months', value: 'last3Months' },
+    { label: 'Last 6 Months', value: 'last6Months' },
+    { label: 'This Year', value: 'thisYear' },
+    { label: 'Last Year', value: 'lastYear' }
   ];
 
-  selectedPreset = signal<string | null>(null);
-  customStart = signal<Date | null>(null);
-  customEnd = signal<Date | null>(null);
+  selectPreset(preset: Preset): void {
+    this.selectedPreset.set(preset);
 
-  onPresetChange(evento: SelectChangeEvent) {
-    const value = (evento.value as HTMLSelectElement).value;
-    this.selectedPreset.set(value);
-    if (value !== 'custom') {
-      this.customStart.set(null);
-      this.customEnd.set(null);
+    const range = this.presetMap[preset]?.();
+
+    if (!range) {
+      this.startDate.set(null);
+      this.endDate.set(null);
+      return;
     }
+
+    this.startDate.set(range.start);
+    this.endDate.set(range.end);
   }
-}
-interface PresetOption {
-  label: string;
-  value: string;
+
+
+  private readonly presetMap: Record<Preset, () => { start: Date; end: Date }> = {
+    today: () => {
+      const d = this.today();
+      return { start: d, end: d };
+    },
+
+    yesterday: () => {
+      const d = this.today();
+      d.setDate(d.getDate() - 1);
+      return { start: d, end: d };
+    },
+
+    thisWeek: () => {
+      const end = this.today();
+      return { start: this.startOfWeek(end), end };
+    },
+
+    lastWeek: () => {
+      const end = this.startOfWeek(this.today());
+      end.setDate(end.getDate() - 1);
+      const start = this.startOfWeek(end);
+      return { start, end };
+    },
+
+    last2Weeks: () => {
+      const end = this.today();
+      const start = new Date(end);
+      start.setDate(start.getDate() - 13);
+      return { start, end };
+    },
+
+    thisMonth: () => {
+      const end = this.today();
+      return { start: new Date(end.getFullYear(), end.getMonth(), 1), end };
+    },
+
+    lastMonth: () => {
+      const end = new Date(this.today().getFullYear(), this.today().getMonth(), 0);
+      const start = new Date(end.getFullYear(), end.getMonth(), 1);
+      return { start, end };
+    },
+
+    last3Months: () => {
+      const end = this.today();
+      return { start: new Date(end.getFullYear(), end.getMonth() - 3, 1), end };
+    },
+
+    last6Months: () => {
+      const end = this.today();
+      return { start: new Date(end.getFullYear(), end.getMonth() - 6, 1), end };
+    },
+
+    thisYear: () => {
+      const end = this.today();
+      return { start: new Date(end.getFullYear(), 0, 1), end };
+    },
+
+    lastYear: () => {
+      const year = this.today().getFullYear() - 1;
+      return {
+        start: new Date(year, 0, 1),
+        end: new Date(year, 11, 31)
+      };
+    }
+  };
+
+
+  private today(): Date {
+    const d = new Date();
+    return new Date(d.getFullYear(), d.getMonth(), d.getDate());
+  }
+
+  private startOfWeek(date: Date): Date {
+    const d = new Date(date);
+    const diff = d.getDay() === 0 ? 6 : d.getDay() - 1;
+    d.setDate(d.getDate() - diff);
+    return this.todayFrom(d);
+  }
+
+  private todayFrom(d: Date): Date {
+    return new Date(d.getFullYear(), d.getMonth(), d.getDate());
+  }
+
 }

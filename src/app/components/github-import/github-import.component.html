@@ -125,31 +125,23 @@
         <p-step-panel [value]="3">
           <ng-template #content let-activateCallback="activateCallback">
             <div class="step-content">
-              <h2 class="section-title">Import Date Range</h2>
-              <p class="subtitle">Select a date range for importing data</p>
+              <h2 class="section-title">What time period?</h2>
+              <p class="subtitle">Choose the time range for your report</p>
 
-              <div class="form-row">
-                <label for="date-range">Date Range</label>
-                <p-select id="date-range" [options]="presetOptions" [ngModel]="selectedPreset()" optionLabel="label"
-                  placeholder="Select a preset" (ngModelChange)="onPresetChange($event)"
-                  aria-describedby="date-range-help">
-                </p-select>
-
-                @if (selectedPreset() === 'custom') {
-                <div class="custom-date-range">
-                  <p-datepicker [(ngModel)]="customStart" [showIcon]="true" placeholder="Start date"></p-datepicker>
-                  <p-datepicker [(ngModel)]="customEnd" [showIcon]="true" placeholder="End date"></p-datepicker>
-                </div>
+              <div class="preset-buttons" role="list">
+                @for (opt of presetOptions; track opt.value) {
+                <button type="button" role="listitem" class="preset-button"
+                  [class.active]="selectedPreset() === opt.value" [attr.aria-pressed]="selectedPreset() === opt.value"
+                  (click)="selectPreset(opt.value)">
+                  {{ opt.label }}
+                </button>
                 }
-
-                <small id="date-range-help" class="help-text">
-                  Choose a preset or select a custom range
-                </small>
               </div>
+
 
               <div class="step-actions">
                 <p-button label="Back" severity="secondary" [outlined]="true" (onClick)="activateCallback(2)" />
-                <p-button label="Continue" (onClick)="activateCallback(4)" />
+                <p-button label="Continue" (onClick)="activateCallback(4)" [disabled]="!hasDateRange()" />
               </div>
             </div>
           </ng-template>
