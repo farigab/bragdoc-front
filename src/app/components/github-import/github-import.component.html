@@ -186,8 +186,9 @@
 
               <div class="step-actions">
                 <p-button label="Back" severity="secondary" [outlined]="true" (onClick)="activateCallback(3)" />
-                <p-button label="AI Analysis" icon="pi pi-sparkles" (onClick)="analyzeAI()"
-                  [disabled]="!customPrompt() || !selectedPreset()" />
+                <p-button [label]="loading().import ? 'Analyzing...' : 'AI Analysis'" icon="pi pi-sparkles"
+                  (onClick)="analyzeAI()" [loading]="loading().import"
+                  [disabled]="loading().import || !customPrompt() || !selectedPreset()" />
               </div>
             </div>
           </ng-template>
@@ -229,8 +230,8 @@
       <h3 class="revoke-title">Account</h3>
       <p class="revoke-sub">Manage your GitHub token</p>
       <div class="revoke-actions">
-        <p-button label="Revoke Token" icon="pi pi-power-off" (onClick)="clearToken()"
-          [loading]="loading().repos" [disabled]="loading().repos"></p-button>
+        <p-button label="Revoke Token" icon="pi pi-power-off" (onClick)="clearToken()" [loading]="loading().repos"
+          [disabled]="loading().repos"></p-button>
       </div>
     </div>
   </aside>
