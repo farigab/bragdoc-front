@@ -95,7 +95,7 @@ export class AuthService {
         map(() => {
           return true;
         }),
-        catchError(error => {
+        catchError(() => {
           this.clearUserState();
           return of(false);
         })

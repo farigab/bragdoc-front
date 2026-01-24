@@ -291,9 +291,12 @@ export class GithubImportComponent implements OnInit {
 
   private checkForSavedToken(): void {
     this.setLoading('repos', true);
-    this.user()?.hasGitHubToken
-      ? this.loadRepositories()
-      : this.setLoading('repos', false);
+
+    if (this.user()?.hasGitHubToken) {
+      return this.loadRepositories();
+    }
+
+    this.setLoading('repos', false);
   }
 
   private loadRepositories(): void {

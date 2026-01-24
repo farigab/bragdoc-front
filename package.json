@@ -1,13 +1,15 @@
 {
   "name": "bragdoc-frontend",
   "version": "2.0.0",
+  "type": "module",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "jest",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "lint": "eslint ."
   },
   "private": true,
   "dependencies": {
@@ -22,10 +24,10 @@
     "@angular/ssr": "^21.1.0",
     "@primeuix/themes": "^2.0.3",
     "chart.js": "^4.4.0",
+    "dompurify": "^3.0.4",
     "express": "^5.1.0",
     "jwt-decode": "^4.0.0",
     "marked": "^17.0.1",
-    "dompurify": "^3.0.4",
     "primeicons": "^7.0.0",
     "primeng": "^21.0.4",
     "rxjs": "~7.8.0",
@@ -41,6 +43,9 @@
     "@types/express": "^5.0.1",
     "@types/marked": "^5.0.2",
     "@types/node": "^20.17.19",
+    "@typescript-eslint/eslint-plugin": "^8.53.1",
+    "@typescript-eslint/parser": "^8.53.1",
+    "eslint": "^8.57.1",
     "jsdom": "^27.1.0",
     "typescript": "~5.9.2",
     "vitest": "^4.0.8"
