@@ -26,7 +26,7 @@ export interface AICustomSummaryRequest {
   startDate: string;
   endDate: string;
   userPrompt?: string;
-  repository?: string[];
+  repositories?: string[];
   reportType?: string;
   category?: string;
 }

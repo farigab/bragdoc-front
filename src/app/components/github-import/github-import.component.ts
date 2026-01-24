@@ -164,7 +164,7 @@ export class GithubImportComponent implements OnInit {
       startDate: this.formatDate(range.start),
       endDate: this.formatDate(range.end),
       userPrompt: prompt,
-      repository: selectedRepos
+      repositories: selectedRepos
     };
 
     this.messageService.add({
