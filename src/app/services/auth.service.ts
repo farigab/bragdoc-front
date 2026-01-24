@@ -85,28 +85,24 @@ export class AuthService {
    * Força recarregamento do usuário (limpa cache).
    */
   reloadUser(): Observable<AuthUser> {
-    console.log('🔄 Forçando recarga do usuário');
     this.userRequest$ = undefined;
     return this.loadUser();
   }
 
   checkSession(): Observable<boolean> {
-    // Se já tem usuário carregado, retorna true imediatamente (sem requisição)
-    if (this.user()) {
-      return of(true);
+    if (!this.user()) {
+      return this.loadUser().pipe(
+        map(() => {
+          return true;
+        }),
+        catchError(error => {
+          this.clearUserState();
+          return of(false);
+        })
+      );
     }
 
-    // Caso contrário, tenta carregar usando loadUser() (reutiliza cache se houver)
-    return this.loadUser().pipe(
-      map(() => {
-        return true;
-      }),
-      catchError(error => {
-        console.log('Sessão inválida:', error.status);
-        this.clearUserState();
-        return of(false);
-      })
-    );
+    return of(true);
   }
 
   /**

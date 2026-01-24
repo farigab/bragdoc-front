@@ -1,20 +1,27 @@
+// src/app/app.routes.ts
 import { Routes } from '@angular/router';
 import { authGuard } from './guards/auth.guard';
+import { LayoutComponent } from './components/layout/layout.component';
 
 export const routes: Routes = [
   {
     path: '',
+    component: LayoutComponent,
     canActivate: [authGuard],
-    loadComponent: () =>
-      import('./components/github-import/github-import.component')
-        .then(m => m.GithubImportComponent)
-  },
-  {
-    path: 'reports',
-    canActivate: [authGuard],
-    loadComponent: () =>
-      import('./components/reports/reports.component')
-        .then(m => m.ReportsComponent)
+    children: [
+      {
+        path: '',
+        loadComponent: () =>
+          import('./components/github-import/github-import.component')
+            .then(m => m.GithubImportComponent)
+      },
+      {
+        path: 'reports',
+        loadComponent: () =>
+          import('./components/reports/reports.component')
+            .then(m => m.ReportsComponent)
+      }
+    ]
   },
   {
     path: 'login',
@@ -30,6 +37,6 @@ export const routes: Routes = [
   },
   {
     path: '**',
-    redirectTo: 'login'
+    redirectTo: ''
   }
 ];

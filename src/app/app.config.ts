@@ -1,14 +1,15 @@
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
-import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import { ApplicationConfig, inject, provideAppInitializer, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter, withComponentInputBinding, withViewTransitions } from '@angular/router';
-import Aura from '@primeuix/themes/aura';
 import { MessageService } from 'primeng/api';
 import { providePrimeNG } from 'primeng/config';
+import { catchError, of } from 'rxjs';
 import './polyfills';
 
 import { routes } from './app.routes';
 import { authInterceptor } from './interceptors/auth.interceptor';
 import { CustomAuraPreset } from './aura‑preset';
+import { AuthService } from './services/auth.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -29,7 +30,15 @@ export const appConfig: ApplicationConfig = {
         preset: CustomAuraPreset,
       }
     }),
+    
+    provideAppInitializer(() => {
+      const authService = inject(AuthService);
+      return authService.checkSession().pipe(
+        catchError(() => of(false))
+      );
+    }),
 
-    MessageService
+    MessageService,
+
   ]
 };

@@ -1,8 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-import { MenuItem } from 'primeng/api';
 import { AvatarModule } from 'primeng/avatar';
 import { ButtonModule } from 'primeng/button';
 import { DrawerModule } from 'primeng/drawer';
@@ -26,18 +25,11 @@ import { AuthService } from '../../services/auth.service';
   host: { class: 'layout-wrapper' }
 })
 export class LayoutComponent {
-
   private readonly auth = inject(AuthService);
 
   protected readonly user = this.auth.user;
-  protected readonly sidebarVisible = signal(false);
 
   constructor() {
-    // loadUser moved to app.component.ts
-  }
-
-  protected toggleSidebar(): void {
-    this.sidebarVisible.update(v => !v);
   }
 
   protected logout(): void {
