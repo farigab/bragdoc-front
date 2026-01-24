@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   inject,
   signal,
+  OnInit,
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
@@ -18,27 +19,22 @@ import { AuthService } from '../../services/auth.service';
         aria-busy="true"
         aria-live="polite"
       >
-        <div class="text-center">
-          <div
-            class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"
-          ></div>
-          <p>Finalizando login...</p>
-        </div>
+        <p-progressSpinner
+          styleClass="w-12 h-12"
+          strokeWidth="3"
+        />
+        <p class="mt-4">Finalizando login...</p>
       </div>
     }
   `,
 })
-export class AuthCallbackComponent {
+export class AuthCallbackComponent implements OnInit {
   private readonly auth = inject(AuthService);
   private readonly router = inject(Router);
 
   readonly loading = signal(true);
 
-  constructor() {
-    this.handleCallback();
-  }
-
-  private async handleCallback(): Promise<void> {
+  async ngOnInit(): Promise<void> {
     try {
       const ok = await firstValueFrom(this.auth.checkSession());
       await this.router.navigateByUrl(ok ? '/' : '/login', {
