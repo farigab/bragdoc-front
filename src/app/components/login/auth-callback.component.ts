@@ -8,6 +8,7 @@ import {
 import { Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 @Component({
   standalone: true,
@@ -23,10 +24,10 @@ import { AuthService } from '../../services/auth.service';
           styleClass="w-12 h-12"
           strokeWidth="3"
         />
-        <p class="mt-4">Finalizando login...</p>
       </div>
     }
   `,
+  imports: [ProgressSpinnerModule],
 })
 export class AuthCallbackComponent implements OnInit {
   private readonly auth = inject(AuthService);
