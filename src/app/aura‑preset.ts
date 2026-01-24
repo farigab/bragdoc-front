@@ -63,7 +63,7 @@ export const CustomAuraPreset = definePreset(Aura, {
     }
   },
   components: {
-    progressSpinner: {
+    progressspinner: {
       colorScheme: {
         light: {
           root: {
