@@ -1,9 +1,17 @@
-import { Component, inject, effect, signal } from '@angular/core';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  inject,
+  signal,
+  effect,
+} from '@angular/core';
 import { Router } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     @if (loading()) {
       <div
@@ -19,26 +27,32 @@ import { AuthService } from '../../services/auth.service';
         </div>
       </div>
     }
-  `
+  `,
 })
 export class AuthCallbackComponent {
+  private readonly auth = inject(AuthService);
+  private readonly router = inject(Router);
 
-  private router = inject(Router);
-  private auth = inject(AuthService);
   readonly loading = signal(true);
 
   constructor() {
     effect(() => {
-      const user = this.auth.user();
-
-      if (!user) return;
-
-      this.loading.set(false);
-      this.router.navigate(['/'], { replaceUrl: true });
+      this.auth
+        .checkSession()
+        .pipe(takeUntilDestroyed())
+        .subscribe({
+          next: (ok) => this.redirect(ok),
+          error: () => this.redirect(false),
+        });
     });
   }
 
-  ngOnInit() {
-    this.auth.loadUser();
+  private redirect(isAuthenticated: boolean): void {
+    this.loading.set(false);
+
+    this.router.navigateByUrl(
+      isAuthenticated ? '/' : '/login',
+      { replaceUrl: true }
+    );
   }
 }
