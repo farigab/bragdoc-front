@@ -61,5 +61,27 @@ export const CustomAuraPreset = definePreset(Aura, {
       900: '#3D3289',
       950: '#2E256A'
     }
+  },
+  components: {
+    progressSpinner: {
+      colorScheme: {
+        light: {
+          root: {
+            colorOne: '{primary.500}',
+            colorTwo: '{primary.500}',
+            colorThree: '{primary.500}',
+            colorFour: '{primary.500}'
+          }
+        },
+        dark: {
+          root: {
+            colorOne: '{primary.400}',
+            colorTwo: '{primary.400}',
+            colorThree: '{primary.400}',
+            colorFour: '{primary.400}'
+          }
+        }
+      }
+    }
   }
 });
