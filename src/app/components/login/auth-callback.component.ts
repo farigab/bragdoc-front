@@ -3,10 +3,9 @@ import {
   ChangeDetectionStrategy,
   inject,
   signal,
-  effect,
 } from '@angular/core';
 import { Router } from '@angular/router';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { firstValueFrom } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
@@ -36,23 +35,19 @@ export class AuthCallbackComponent {
   readonly loading = signal(true);
 
   constructor() {
-    effect(() => {
-      this.auth
-        .checkSession()
-        .pipe(takeUntilDestroyed())
-        .subscribe({
-          next: (ok) => this.redirect(ok),
-          error: () => this.redirect(false),
-        });
-    });
+    this.handleCallback();
   }
 
-  private redirect(isAuthenticated: boolean): void {
-    this.loading.set(false);
-
-    this.router.navigateByUrl(
-      isAuthenticated ? '/' : '/login',
-      { replaceUrl: true }
-    );
+  private async handleCallback(): Promise<void> {
+    try {
+      const ok = await firstValueFrom(this.auth.checkSession());
+      await this.router.navigateByUrl(ok ? '/' : '/login', {
+        replaceUrl: true,
+      });
+    } catch {
+      await this.router.navigateByUrl('/login', { replaceUrl: true });
+    } finally {
+      this.loading.set(false);
+    }
   }
 }
