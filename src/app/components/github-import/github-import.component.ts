@@ -11,7 +11,7 @@ import { SelectModule } from 'primeng/select';
 import { StepperModule } from 'primeng/stepper';
 import { ToastModule } from 'primeng/toast';
 import { finalize } from 'rxjs';
-import { AICustomSummaryRequest, AISummaryReport } from '../../models/report.model';
+import { AICustomSummaryRequest, AISummaryReport, ReportType } from '../../models/report.model';
 import { MarkdownPipe } from '../../pipes/markdown.pipe';
 import { AuthService } from '../../services/auth.service';
 import { GithubImportService } from '../../services/github-import.service';
@@ -28,6 +28,12 @@ interface LoadingState {
 interface PresetOption {
   label: string;
   value: Preset;
+}
+
+interface ReportTypeOption {
+  label: string;
+  value: ReportType;
+  description: string;
 }
 
 type Preset =
@@ -108,6 +114,30 @@ export class GithubImportComponent implements OnInit {
   readonly maxPromptLength = 1000;
   readonly promptLength = computed(() => this.customPrompt().length);
 
+  readonly selectedReportType = signal<ReportType>('EXECUTIVE');
+  readonly reportTypeOptions: ReportTypeOption[] = [
+    {
+      label: 'Executive Report',
+      value: 'EXECUTIVE',
+      description: 'Concise summary with quantified achievements and professional profile'
+    },
+    {
+      label: 'Technical Report',
+      value: 'TECHNICAL',
+      description: 'In-depth technical analysis of contributions and tech stack'
+    },
+    {
+      label: 'Timeline Report',
+      value: 'TIMELINE',
+      description: 'Career evolution narrative showing professional growth'
+    },
+    {
+      label: 'GitHub Report',
+      value: 'GITHUB',
+      description: 'Open source contributions analysis with quality metrics'
+    }
+  ];
+
   private signalActiveStep = signal<number>(1);
   readonly maxReachedStep = signal<number>(1);
 
@@ -141,11 +171,6 @@ export class GithubImportComponent implements OnInit {
   analyzeAI(): void {
     const prompt = this.customPrompt().trim();
 
-    if (!prompt) {
-      this.showError('Please enter a prompt for AI analysis');
-      return;
-    }
-
     if (prompt.length > this.MAX_PROMPT_LENGTH) {
       this.showError(`Prompt exceeds maximum length of ${this.MAX_PROMPT_LENGTH} characters`);
       return;
@@ -165,7 +190,8 @@ export class GithubImportComponent implements OnInit {
       startDate: this.formatDate(range.start),
       endDate: this.formatDate(range.end),
       userPrompt: prompt,
-      repositories: repos
+      repositories: repos,
+      reportType: this.selectedReportType()
     };
 
     this.messageService.add({
@@ -246,41 +272,6 @@ export class GithubImportComponent implements OnInit {
         this.handleError('repos', err);
         this.maxReachedStep.set(1);
         this.activeStep = 1;
-      }
-    });
-  }
-
-  startImport(): void {
-    const start = this.startDate();
-    const end = this.endDate();
-
-    if (!start || !end) {
-      this.showError('Please select both start and end dates');
-      return;
-    }
-
-    if (start > end) {
-      this.showError('Start date must be before end date');
-      return;
-    }
-
-    const selectedRepos = Array.from(this.selectedRepos());
-    const repos = selectedRepos.length > 0 ? selectedRepos : this.repositories();
-
-    this.setLoading('import', true);
-
-    this.service.importData({
-      repositories: repos,
-      startDate: start.toISOString(),
-      endDate: end.toISOString()
-    }).subscribe({
-      next: (response: unknown) => {
-        this.result.set(response);
-        this.setLoading('import', false);
-        this.showSuccess('Import completed successfully');
-      },
-      error: (err: unknown) => {
-        this.handleError('import', err);
       }
     });
   }
@@ -381,7 +372,6 @@ export class GithubImportComponent implements OnInit {
     this.endDate.set(range.end);
   }
 
-
   private readonly presetMap: Record<Preset, () => { start: Date; end: Date }> = {
     today: () => {
       const d = this.today();
@@ -448,7 +438,6 @@ export class GithubImportComponent implements OnInit {
     }
   };
 
-
   private today(): Date {
     const d = new Date();
     return new Date(d.getFullYear(), d.getMonth(), d.getDate());
@@ -464,5 +453,4 @@ export class GithubImportComponent implements OnInit {
   private todayFrom(d: Date): Date {
     return new Date(d.getFullYear(), d.getMonth(), d.getDate());
   }
-
 }

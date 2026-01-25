@@ -5,9 +5,7 @@ import { environment } from '../../environments/environment';
 import { Achievement } from '../models/achievement.model';
 import {
   AICustomSummaryRequest,
-  AIGitHubAnalysis,
   AISummaryReport,
-  TimelineReport
 } from '../models/report.model';
 
 @Injectable({
@@ -23,21 +21,6 @@ export class ReportService {
 
   readonly loading = this.loadingSignal.asReadonly();
   readonly error = this.errorSignal.asReadonly();
-
-  getTimeline(): Observable<TimelineReport> {
-    this.loadingSignal.set(true);
-    this.errorSignal.set(null);
-
-    return this.http.get<TimelineReport>(`${this.apiUrl}/timeline`).pipe(
-      tap({
-        next: () => this.loadingSignal.set(false),
-        error: (err) => {
-          this.errorSignal.set(err.message);
-          this.loadingSignal.set(false);
-        }
-      })
-    );
-  }
 
   exportAll(): Observable<Achievement[]> {
     return this.http.get<Achievement[]>(`${this.apiUrl}/export`);
@@ -75,20 +58,6 @@ export class ReportService {
     );
   }
 
-  getAIGitHubAnalysis(): Observable<AIGitHubAnalysis> {
-    this.loadingSignal.set(true);
-    this.errorSignal.set(null);
-
-    return this.http.get<AIGitHubAnalysis>(`${this.apiUrl}/ai-github-analysis`).pipe(
-      tap({
-        next: () => this.loadingSignal.set(false),
-        error: (err) => {
-          this.errorSignal.set(err.message);
-          this.loadingSignal.set(false);
-        }
-      })
-    );
-  }
 
   getAICustomSummary(request: AICustomSummaryRequest): Observable<AISummaryReport> {
     this.loadingSignal.set(true);

@@ -142,7 +142,6 @@
                 }
               </div>
 
-
               <div class="step-actions">
                 <p-button label="Back" severity="secondary" [outlined]="true" (onClick)="activateCallback(2)" />
                 <p-button label="Continue" (onClick)="activateCallback(4)" [disabled]="!hasDateRange()" />
@@ -151,18 +150,40 @@
           </ng-template>
         </p-step-panel>
 
-
         <!-- Step 4: AI Prompt & Analysis -->
         <p-step-panel [value]="4">
           <ng-template #content let-activateCallback="activateCallback">
             <div class="step-content">
               <h2 class="section-title">AI Analysis</h2>
-              <p class="subtitle">Customize the prompt for automated analysis</p>
+              <p class="subtitle">Select report type and customize the analysis prompt</p>
+
+              <!-- Report Type Selection -->
+              <div class="form-row">
+                <label for="report-type">Report Type</label>
+                <div class="report-type-grid" role="radiogroup" aria-labelledby="report-type">
+                  @for (option of reportTypeOptions; track option.value) {
+                  <button type="button" class="report-type-card" role="radio"
+                    [class.active]="selectedReportType() === option.value"
+                    [attr.aria-checked]="selectedReportType() === option.value"
+                    (click)="selectedReportType.set(option.value)"
+                    (keydown.enter)="selectedReportType.set(option.value)"
+                    (keydown.space)="selectedReportType.set(option.value)">
+                    <div class="report-type-header">
+                      <span class="report-type-label">{{ option.label }}</span>
+                      @if (selectedReportType() === option.value) {
+                      <i class="pi pi-check-circle report-type-check"></i>
+                      }
+                    </div>
+                    <p class="report-type-description">{{ option.description }}</p>
+                  </button>
+                  }
+                </div>
+              </div>
 
               <div class="form-row ai-prompt">
-                <label for="ai-prompt">AI Prompt</label>
+                <label for="ai-prompt">AI Prompt (Optional)</label>
                 <textarea pInputTextarea id="ai-prompt" rows="6" [ngModel]="customPrompt()"
-                  (ngModelChange)="customPrompt.set($event)" placeholder="Write the prompt for the AI..."
+                  (ngModelChange)="customPrompt.set($event)" placeholder="Add custom instructions for the AI..."
                   [attr.maxlength]="maxPromptLength"
                   aria-describedby="ai-prompt-help ai-prompt-examples ai-prompt-count"
                   aria-label="AI Prompt"></textarea>
@@ -170,15 +191,15 @@
                 <div id="ai-prompt-examples" class="ai-examples" aria-hidden="false">
                   <strong>Examples</strong>
                   <ul>
-                    <li>Summarize the most important commits in this repository over the last 30 days.</li>
-                    <li>List the top contributors and explain the impact of their changes.</li>
-                    <li>Detect refactoring patterns and technical debt hotspots.</li>
+                    <li>Focus on leadership and mentoring contributions</li>
+                    <li>Highlight scalability improvements and performance optimizations</li>
+                    <li>Emphasize cross-functional collaboration and communication</li>
                   </ul>
                 </div>
 
                 <div class="ai-prompt-footer">
-                  <small id="ai-prompt-help" class="help-text">Use clear instructions and examples for better
-                    results</small>
+                  <small id="ai-prompt-help" class="help-text">Optional: Add specific instructions to customize the AI
+                    analysis</small>
                   <small id="ai-prompt-count" class="help-text" aria-live="polite">{{ promptLength() }} / {{
                     maxPromptLength }}</small>
                 </div>
@@ -186,9 +207,9 @@
 
               <div class="step-actions">
                 <p-button label="Back" severity="secondary" [outlined]="true" (onClick)="activateCallback(3)" />
-                <p-button [label]="loading().import ? 'Analyzing...' : 'AI Analysis'" icon="pi pi-sparkles"
+                <p-button [label]="loading().import ? 'Analyzing...' : 'Generate Report'" icon="pi pi-sparkles"
                   (onClick)="analyzeAI()" [loading]="loading().import"
-                  [disabled]="loading().import || !customPrompt() || !selectedPreset()" />
+                  [disabled]="loading().import || !selectedPreset()" />
               </div>
             </div>
           </ng-template>
@@ -205,8 +226,8 @@
             <i class="pi pi-sparkles"></i>
           </div>
           <div>
-            <h2 class="modal-title">Análise Gerada por IA</h2>
-            <p class="modal-subtitle">Insights automáticos sobre seus achievements</p>
+            <h2 class="modal-title">AI Generated Report</h2>
+            <p class="modal-subtitle">Automated insights about your achievements</p>
           </div>
         </div>
       </ng-template>

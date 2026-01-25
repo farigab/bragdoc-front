@@ -15,12 +15,6 @@ export const routes: Routes = [
           import('./components/github-import/github-import.component')
             .then(m => m.GithubImportComponent)
       },
-      {
-        path: 'reports',
-        loadComponent: () =>
-          import('./components/reports/reports.component')
-            .then(m => m.ReportsComponent)
-      }
     ]
   },
   {

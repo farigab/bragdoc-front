@@ -29,8 +29,4 @@ export class GithubImportService {
     if (token) params = params.set('token', token);
     return this.http.post<string[]>(`${this.apiUrl}/import/repositories`, null, { params });
   }
-
-  importData(request: ImportDataRequest): Observable<ImportDataResponse> {
-    return this.http.post<ImportDataResponse>(`${this.apiUrl}/import`, request);
-  }
 }

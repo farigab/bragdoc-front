@@ -266,6 +266,80 @@
 }
 
 /* ==========================================
+   REPORT TYPE SELECTION
+   ========================================== */
+
+.report-type-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-sm);
+}
+
+@media (min-width: 640px) {
+  .report-type-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.report-type-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-md);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  text-align: left;
+  font-family: var(--font-family);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.report-type-card:hover {
+  border-color: var(--primary);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+
+.report-type-card.active {
+  background: rgba(107, 93, 211, 0.08);
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px rgba(107, 93, 211, 0.1);
+}
+
+.report-type-card:focus-visible {
+  outline: 3px solid rgba(107, 93, 211, 0.14);
+  outline-offset: 3px;
+}
+
+.report-type-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.report-type-label {
+  font-size: clamp(0.9375rem, 2vw, 1rem);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+}
+
+.report-type-check {
+  color: var(--primary);
+  font-size: 1.125rem;
+  flex-shrink: 0;
+}
+
+.report-type-description {
+  color: var(--text-secondary);
+  font-size: clamp(0.8125rem, 1.5vw, 0.875rem);
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* ==========================================
    AI PROMPT SECTION
    ========================================== */
 
@@ -282,7 +356,6 @@
   resize: vertical;
   padding: clamp(12px, 2vw, 16px);
   border-radius: var(--radius-md);
-  /* match token input: slightly darker surface for contrast */
   background: rgba(32, 28, 46, 0.95);
   color: var(--text-primary);
   border: 1px solid var(--border);
@@ -291,7 +364,6 @@
   transition: box-shadow 150ms ease, border-color 150ms ease, transform 120ms ease;
   box-shadow: none;
   font-weight: 500;
-  /* slight increase to match token input */
 }
 
 .ai-prompt .p-inputtextarea:focus,
@@ -320,7 +392,6 @@
   box-shadow: none;
   transition: box-shadow 150ms ease, border-color 150ms ease, transform 120ms ease;
   font-weight: 500;
-  /* slight increase */
 }
 
 .form-row input::placeholder,
@@ -952,9 +1023,8 @@
 }
 
 /* ==========================================
-   MOBILE SPECIFIC ADJUSTMENTS
-   ========================================== */
-
+MOBILE SPECIFIC ADJUSTMENTS
+========================================== */
 @media (max-width: 640px) {
   .integrated-container {
     padding: var(--spacing-sm);
@@ -984,11 +1054,12 @@
     flex-direction: column;
     width: 100%;
   }
+
+  .report-type-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
-/* ==========================================
-   PRINT STYLES
-   ========================================== */
 
 @media print {
 
