@@ -8,6 +8,7 @@ import './polyfills';
 
 import { routes } from './app.routes';
 import { authInterceptor } from './interceptors/auth.interceptor';
+import { errorInterceptor } from './interceptors/error.interceptor';
 import { CustomAuraPreset } from './aura‑preset';
 import { AuthService } from './services/auth.service';
 
@@ -22,7 +23,10 @@ export const appConfig: ApplicationConfig = {
     ),
 
     provideHttpClient(
-      withInterceptors([authInterceptor])
+      withInterceptors([
+        authInterceptor,
+        errorInterceptor
+      ])
     ),
 
     providePrimeNG({
@@ -30,7 +34,7 @@ export const appConfig: ApplicationConfig = {
         preset: CustomAuraPreset,
       }
     }),
-    
+
     provideAppInitializer(() => {
       const authService = inject(AuthService);
       return authService.checkSession().pipe(
@@ -39,6 +43,5 @@ export const appConfig: ApplicationConfig = {
     }),
 
     MessageService,
-
   ]
 };

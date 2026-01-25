@@ -10,43 +10,43 @@
     </div>
 
     <!-- PrimeNG Stepper -->
-    <p-stepper [(value)]="activeStep" [linear]="false">
+    <p-stepper [value]="activeStep()" [linear]="false">
 
       <p-step-list>
-        <p-step [value]="1" class="step-header" (click)="canGoTo(1) && goToStep(1)">
+        <p-step [value]="1" class="step-header">
           <ng-template #content let-value="value">
-            <span class="step-circle" [class.active]="value <= activeStep" (click)="canGoTo(value) && goToStep(value)"
-              (keydown.enter)="canGoTo(value) && goToStep(value)" tabindex="0" role="button" style="cursor: pointer">
+            <span class="step-circle" [class.active]="value <= activeStep()" (click)="goToStep(value)"
+              (keydown.enter)="goToStep(value)" tabindex="0" role="button" style="cursor: pointer">
               <i class="pi pi-github"></i>
               Connect
             </span>
           </ng-template>
         </p-step>
 
-        <p-step [value]="2" class="step-header" (click)="canGoTo(2) && goToStep(2)">
+        <p-step [value]="2" class="step-header">
           <ng-template #content let-value="value">
-            <span class="step-circle" [class.active]="value <= activeStep" (click)="canGoTo(value) && goToStep(value)"
-              (keydown.enter)="canGoTo(value) && goToStep(value)" tabindex="0" role="button" style="cursor: pointer">
+            <span class="step-circle" [class.active]="value <= activeStep()" (click)="goToStep(value)"
+              (keydown.enter)="goToStep(value)" tabindex="0" role="button" style="cursor: pointer">
               <i class="pi pi-folder"></i>
               Repositories
             </span>
           </ng-template>
         </p-step>
 
-        <p-step [value]="3" class="step-header" (click)="canGoTo(3) && goToStep(3)">
+        <p-step [value]="3" class="step-header">
           <ng-template #content let-value="value">
-            <span class="step-circle" [class.active]="value <= activeStep" (click)="canGoTo(value) && goToStep(value)"
-              (keydown.enter)="canGoTo(value) && goToStep(value)" tabindex="0" role="button" style="cursor: pointer">
+            <span class="step-circle" [class.active]="value <= activeStep()" (click)="goToStep(value)"
+              (keydown.enter)="goToStep(value)" tabindex="0" role="button" style="cursor: pointer">
               <i class="pi pi-calendar"></i>
               Time Period
             </span>
           </ng-template>
         </p-step>
 
-        <p-step [value]="4" class="step-header" (click)="canGoTo(4) && goToStep(4)">
+        <p-step [value]="4" class="step-header">
           <ng-template #content let-value="value">
-            <span class="step-circle" [class.active]="value <= activeStep" (click)="canGoTo(value) && goToStep(value)"
-              (keydown.enter)="canGoTo(value) && goToStep(value)" tabindex="0" role="button" style="cursor: pointer">
+            <span class="step-circle" [class.active]="value <= activeStep()" (click)="goToStep(value)"
+              (keydown.enter)="goToStep(value)" tabindex="0" role="button" style="cursor: pointer">
               <i class="pi pi-sparkles"></i>
               AI Analysis
             </span>
@@ -58,7 +58,7 @@
 
         <!-- Step 1: Token Input -->
         <p-step-panel [value]="1">
-          <ng-template #content let-activateCallback="activateCallback">
+          <ng-template #content>
             <div class="step-content">
               <h2 class="section-title">Connect GitHub Account</h2>
               <p class="subtitle">Enter your Personal Access Token to get started</p>
@@ -88,7 +88,7 @@
 
         <!-- Step 2: Repository Selection -->
         <p-step-panel [value]="2">
-          <ng-template #content let-activateCallback="activateCallback">
+          <ng-template #content>
             <div class="step-content">
               <div class="card-header">
                 <h2 class="section-title">Select Repositories</h2>
@@ -119,15 +119,15 @@
               </div>
 
               <div class="step-actions">
-                <p-button label="Back" severity="secondary" [outlined]="true" (onClick)="activateCallback(1)" />
-                <p-button label="Continue" (onClick)="activateCallback(3)" />
+                <p-button label="Back" severity="secondary" [outlined]="true" (onClick)="goBackToStep1()" />
+                <p-button label="Continue" (onClick)="advanceToStep(3)" />
               </div>
             </div>
           </ng-template>
         </p-step-panel>
 
         <p-step-panel [value]="3">
-          <ng-template #content let-activateCallback="activateCallback">
+          <ng-template #content>
             <div class="step-content">
               <h2 class="section-title">Select a time period</h2>
               <p class="subtitle">Choose the time range for your report</p>
@@ -143,8 +143,8 @@
               </div>
 
               <div class="step-actions">
-                <p-button label="Back" severity="secondary" [outlined]="true" (onClick)="activateCallback(2)" />
-                <p-button label="Continue" (onClick)="activateCallback(4)" [disabled]="!hasDateRange()" />
+                <p-button label="Back" severity="secondary" [outlined]="true" (onClick)="goToStep(2)" />
+                <p-button label="Continue" (onClick)="advanceToStep(4)" [disabled]="!hasDateRange()" />
               </div>
             </div>
           </ng-template>
@@ -152,7 +152,7 @@
 
         <!-- Step 4: AI Prompt & Analysis -->
         <p-step-panel [value]="4">
-          <ng-template #content let-activateCallback="activateCallback">
+          <ng-template #content>
             <div class="step-content">
               <h2 class="section-title">AI Analysis</h2>
               <p class="subtitle">Select report type and customize the analysis prompt</p>
@@ -206,7 +206,7 @@
               </div>
 
               <div class="step-actions">
-                <p-button label="Back" severity="secondary" [outlined]="true" (onClick)="activateCallback(3)" />
+                <p-button label="Back" severity="secondary" [outlined]="true" (onClick)="goToStep(3)" />
                 <p-button [label]="loading().import ? 'Analyzing...' : 'Generate Report'" icon="pi pi-sparkles"
                   (onClick)="analyzeAI()" [loading]="loading().import"
                   [disabled]="loading().import || !selectedPreset()" />
