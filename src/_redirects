@@ -1,0 +1,3 @@
+# Cloudflare Pages SPA redirect
+# Todas as rotas devem servir o index.html para o Angular Router funcionar
+/*    /index.html   200

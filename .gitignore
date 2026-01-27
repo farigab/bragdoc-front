@@ -4,5 +4,11 @@ dist/
 coverage/
 *.log
 .env
+.env.local
 .DS_Store
 Thumbs.db
+
+# Cloudflare
+.wrangler/
+.dev.vars
+wrangler.toml.backup

@@ -6,10 +6,13 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "build:prod": "ng build --configuration production",
     "watch": "ng build --watch --configuration development",
     "test": "jest",
     "test:watch": "jest --watch",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "deploy:preview": "npm run build:prod && wrangler pages deploy dist/bragdoc-frontend/browser --project-name=bragdoc-frontend",
+    "cf:dev": "wrangler pages dev dist/bragdoc-frontend/browser"
   },
   "private": true,
   "dependencies": {

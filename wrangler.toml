@@ -1,0 +1,54 @@
+name = "bragdoc-frontend"
+compatibility_date = "2024-01-27"
+pages_build_output_dir = "dist/bragdoc-frontend/browser"
+
+# Configurações de build para Cloudflare Pages
+[build]
+command = "npm run build"
+
+# Variáveis de ambiente para produção
+[env.production.vars]
+NODE_ENV = "production"
+
+# Configurações de preview (branches)
+[env.preview.vars]
+NODE_ENV = "development"
+
+# Headers de segurança e performance
+[[headers]]
+for = "/*"
+[headers.values]
+X-Frame-Options = "DENY"
+X-Content-Type-Options = "nosniff"
+X-XSS-Protection = "1; mode=block"
+Referrer-Policy = "strict-origin-when-cross-origin"
+Permissions-Policy = "geolocation=(), microphone=(), camera=()"
+
+# Cache para assets estáticos
+[[headers]]
+for = "/assets/*"
+[headers.values]
+Cache-Control = "public, max-age=31536000, immutable"
+
+# Cache para arquivos JS/CSS com hash
+[[headers]]
+for = "/*.js"
+[headers.values]
+Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+for = "/*.css"
+[headers.values]
+Cache-Control = "public, max-age=31536000, immutable"
+
+# Sem cache para index.html (SPA)
+[[headers]]
+for = "/index.html"
+[headers.values]
+Cache-Control = "public, max-age=0, must-revalidate"
+
+# Redirects para SPA routing
+[[redirects]]
+from = "/*"
+to = "/index.html"
+status = 200
