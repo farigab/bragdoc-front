@@ -44,7 +44,6 @@
     "@angular-devkit/build-angular": "21.1.0",
     "@angular/build": "21.1.0",
     "@angular/cli": "^21.1.1",
-    "@angular/compiler": "21.1.1",
     "@angular/compiler-cli": "21.1.1",
     "@types/express": "^5.0.1",
     "@types/marked": "^5.0.2",
