@@ -17,7 +17,7 @@ export class BackendHealthService {
   private readonly http = inject(HttpClient);
   private readonly healthUrl = `${environment.apiUrl}/health`;
 
-  readonly MAX_RETRY_ATTEMPTS = 20;
+  readonly MAX_RETRY_ATTEMPTS = 10;
   private readonly FAST_TIMEOUT_MS = 2000;
   private readonly RETRY_DELAY_MS = 3000;
   private readonly LONG_TIMEOUT_MS = 30000;

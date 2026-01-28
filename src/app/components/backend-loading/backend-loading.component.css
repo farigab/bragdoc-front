@@ -287,14 +287,12 @@
   text-decoration: underline;
 }
 
-/* Animação para o tempo estimado */
 .status-description strong {
   display: inline-block;
   color: var(--primary);
   font-weight: var(--font-weight-semibold);
 }
 
-/* Melhoria na progress bar */
 .progress-bar {
   position: relative;
   overflow: hidden;
