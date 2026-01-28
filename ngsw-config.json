@@ -46,17 +46,6 @@
         "maxAge": "1h",
         "timeout": "5s"
       }
-    },
-    {
-      "name": "api-performance",
-      "urls": [
-        "https://api-bragdoc.farigab.com/api/health"
-      ],
-      "cacheConfig": {
-        "strategy": "performance",
-        "maxSize": 20,
-        "maxAge": "1d"
-      }
     }
   ],
   "navigationUrls": [
