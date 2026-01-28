@@ -29,7 +29,8 @@
               "src/favicon.ico",
               "src/assets",
               "src/_redirects",
-              "src/_headers"
+              "src/_headers",
+              "src/manifest.webmanifest"
             ],
             "styles": [
               "src/styles.css"
@@ -51,6 +52,7 @@
                 }
               ],
               "outputHashing": "all",
+              "serviceWorker": "ngsw-config.json",
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
