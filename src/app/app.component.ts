@@ -3,6 +3,7 @@ import { RouterOutlet } from '@angular/router';
 import { switchMap, catchError, of } from 'rxjs';
 import { BackendHealthService } from './services/backend-health.service';
 import { AuthService } from './services/auth.service';
+import { SwUpdateService } from './services/sw-update.service';
 import { BackendLoadingComponent } from './components/backend-loading/backend-loading.component';
 
 @Component({
@@ -22,6 +23,7 @@ import { BackendLoadingComponent } from './components/backend-loading/backend-lo
 export class AppComponent implements OnInit {
   protected readonly healthService = inject(BackendHealthService);
   private readonly authService = inject(AuthService);
+  private readonly swUpdate = inject(SwUpdateService);
 
   readonly showLoading = computed(() => {
     const status = this.healthService.status();
@@ -29,6 +31,8 @@ export class AppComponent implements OnInit {
   });
 
   ngOnInit(): void {
+    this.swUpdate.init();
+
     this.healthService.checkHealth().pipe(
       switchMap(() => {
         if (this.healthService.isHealthy()) {

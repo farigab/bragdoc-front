@@ -1,8 +1,10 @@
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter, withComponentInputBinding, withViewTransitions } from '@angular/router';
+import { provideServiceWorker } from '@angular/service-worker';
 import { MessageService } from 'primeng/api';
 import { providePrimeNG } from 'primeng/config';
+import { environment } from '../environments/environment';
 import './polyfills';
 
 import { routes } from './app.routes';
@@ -33,6 +35,10 @@ export const appConfig: ApplicationConfig = {
       }
     }),
 
+    provideServiceWorker('ngsw-worker.js', {
+      enabled: environment.production,
+      registrationStrategy: 'registerWhenStable:30000'
+    }),
 
     MessageService,
   ]
